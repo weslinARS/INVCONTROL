@@ -1,11 +1,10 @@
 import { BiExit } from "react-icons/bi";
-import { useAuth } from "../../Contexts/AuthContext.context";
 import { useAuthenticacion } from "../../Contexts/Authenticacion.context";
 interface MenuProps {
 	children: React.ReactNode;
 	sideBarContent: React.ReactNode;
 }
-export default function Menu({ children, sideBarContent }: MenuProps) {
+export function Menu({ children, sideBarContent }: MenuProps) {
 	const { LogOut } = useAuthenticacion();
 	return (
 		<div className='drawer'>

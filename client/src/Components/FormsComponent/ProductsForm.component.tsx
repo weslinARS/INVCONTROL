@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { RootState } from "../../Store/store";
 import { BsFillPencilFill, BsArchiveFill, BsFillTagFill } from "react-icons/bs";
-import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useProduct } from "../../hooks/useProducts.hook";
@@ -13,8 +12,8 @@ import {
 	SelectObjectField,
 	TextField,
 } from "../InputsComponent";
-import { Formik, Form, Field, ErrorMessage} from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { ProductValidator } from "../../Validators/Product.validator";
 export interface IFormValues {
 	productName: string;
 	productPrice: number;
@@ -23,14 +22,12 @@ export interface IFormValues {
 	productCategory: string;
 	productDescription: string;
 }
-export default function ProductsForm({
+export function ProductsForm({
 	setIsOpenForm,
-	isOpenForm,
 }: {
 	setIsOpenForm: any;
-	isOpenForm: boolean;
 }) {
-	const {AddProduct} = useProduct(); 
+	const { AddProduct } = useProduct();
 	// adapting sweet alert to react
 	const MySwal = withReactContent(Swal);
 	const CategoryList = useSelector(
@@ -40,7 +37,7 @@ export default function ProductsForm({
 		(state: RootState) => state.Suppliers.suppliers
 	);
 	return (
-		<div className='ml-2 w-fit rounded-md px-4 py-6 bg-slate-200 '>
+		<div className='ml-2 w-fit rounded-md bg-slate-200 px-4 py-6 '>
 			<p className=' py-2 sm:w-[35ch] md:w-[40ch]'>
 				Agregue la informacion necesaria para registrar un producto en
 				el &nbsp;
@@ -86,27 +83,7 @@ export default function ProductsForm({
 							}
 						});
 					}}
-					validationSchema={Yup.object({
-						productName: Yup.string().required(
-							"Ingrese el nombre del produto"
-						),
-						productPrice: Yup.number()
-							.required("Ingrese el precio del producto")
-							.min(1, "el precio debe ser mayor a 0"),
-						productStock: Yup.number()
-							.required("Ingrese el stock del producto")
-							.integer("El numero debe de ser entero")
-							.min(1, "El stock debe ser mayor a 0"),
-						productSupplierId: Yup.string().required(
-							"Ingrese el proveedor del producto"
-						),
-						productCategory: Yup.string().required(
-							"Ingrese la categoria del producto"
-						),
-						productDescription: Yup.string().required(
-							"Ingrese la descripcion del producto"
-						),
-					})}
+					validationSchema={ProductValidator}
 					onReset={() => {
 						setIsOpenForm(false);
 					}}>
@@ -115,13 +92,13 @@ export default function ProductsForm({
 							{
 								// * INPUTS PARA EL FORMULARIO DE PRODUCTOS
 							}
-							<div className='row-span-1 grid w-fit gap-4 p-4 sm:grid-cols-1'>
+							<div className='row-span-1 grid w-fit gap-4 p-4 sm:grid-cols-1 md:grid-cols-2'>
 								{/*
 								 *INPUT  NOMBRE DEL PRODUCTO
 								 */}
 								<TextField
 									fieldName='productName'
-									inputIcon={<BsFillTagFill />}
+									inputIcon={<BsFillPencilFill />}
 									label={"Nombre del producto"}
 									placeHolder={"Nombre del producto"}
 									value={values.productName}
@@ -190,8 +167,8 @@ export default function ProductsForm({
 								// * BOTONES PARA EL FORMULARIO DE PRODUCTOS
 							}
 							<div
-								className='flex items-center justify-evenly gap-x-2  gap-y-4 
-							py-4 sm:flex-col md:flex-row '>
+								className='grid items-center justify-evenly gap-x-2  gap-y-4 
+							py-4 sm:grid-rows-2 sm:grid-cols-1 md:grid-cols-2 md:grid-rows-1 '>
 								<button
 									className='btn-primary btn'
 									type='submit'>

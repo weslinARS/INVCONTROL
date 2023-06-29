@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "src/app/store";
+import { RootState } from "src/Store/store";
 interface props {
 	children: any;
 	hasRole: string;

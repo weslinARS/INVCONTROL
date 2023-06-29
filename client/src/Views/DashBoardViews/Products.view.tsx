@@ -1,6 +1,6 @@
-import ProductsForm from "../../Components/ProductsViewComponent/ProductsForm.component";
+import {ProductsForm} from "../../Components/FormsComponent";
 import Table from "../../Components/Table/Table.component";
-import { RootState } from "../../app/store";
+import { RootState } from "../../Store/store";
 import { tableDataProducts } from "../../utilities/tableData";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -28,7 +28,6 @@ export function Productos() {
 				{isFormOpen ? (
 					<div className='mt-6 flex flex-col items-center'>
 						<ProductsForm
-							isOpenForm={isFormOpen}
 							setIsOpenForm={setIsFormOpen}
 						/>
 					</div>

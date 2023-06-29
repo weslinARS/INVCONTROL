@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
 import { ReactNode, createContext, useContext, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../app/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../Store/store";
 import { useProduct } from "../hooks/useProducts.hook";
 import { useCategories } from "../hooks/useCategories.hook";
 import { useOrders } from "../hooks/useOrders.hook";
@@ -17,7 +17,6 @@ export const useStore = () => {
 	return context;
 };
 export function StoreProvider({ children }: { children: ReactNode }) {
-	const dispatch = useDispatch();
 	const [LoadingData, setLoadingData] = useState<boolean>(true);
 	const user = useSelector((state: RootState) => state.User);
 	const { FindProducts } = useProduct();
@@ -32,11 +31,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	const FindDocuments = async () => {
-		const res1 = await FindProducts();
-		const res2 = await FindCategories();
-		const res3 = await FindOrders();
-		const res4 = await FindSales();
-		const res5 = await FindSuppliers();
+		const [res1, res2, res3, res4, res5] = await Promise.all([
+			FindProducts(),
+			FindCategories(),
+			FindOrders(),
+			FindSales(),
+			FindSuppliers(),
+		]);
 		if (res1 && res2 && res3 && res4 && res5) setLoadingData(false);
 	};
 	const values = {

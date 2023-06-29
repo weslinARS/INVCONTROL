@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RiDashboardLine } from "react-icons/ri";
-import { NavLinkComponent } from "./NavLink.component";
+import { NavLinkComponent } from "../NavLink.component";
 import { useSelector } from "react-redux";
 import {
 	HiArchive,
@@ -9,7 +9,7 @@ import {
 	HiUsers,
 	HiClipboardList,
 } from "react-icons/hi";
-import { RootState } from "src/app/store";
+import { RootState } from "src/Store/store";
 export function SideBarItems() {
 	const role = useSelector((state : RootState) => state.User.userRole)
 	return (

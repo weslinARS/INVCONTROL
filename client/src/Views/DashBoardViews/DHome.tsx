@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { RootState } from "../../Store/store";
 import { LoadingView } from "../../Components/LoadingView.component";
 import { useState } from "react";
 import { CardList } from "../../Components/DashBoardComponents/CardList.component";

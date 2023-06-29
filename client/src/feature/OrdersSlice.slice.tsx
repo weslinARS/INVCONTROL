@@ -16,11 +16,21 @@ export const OrdersSlice = createSlice({
 			state.orders = action.payload;
 			console.log("el nuevo estado de las ordenes es: ", state);
 		},
-		ResetOrdersState : (state) => {
-			state.orders= initialState.orders;
-		}
+		ResetOrders: (state) => {
+			state.orders = initialState.orders;
+		},
+		AddOrder: (state, action: PayloadAction<object>) => {
+			state.orders = [...state.orders, action.payload];
+		},
+		DeleteOrder: (state, action: PayloadAction<string>) => {
+			state.orders = state.orders.filter(
+				(order: object) =>
+					order["_id" as keyof object] !== action.payload
+			);
+		},
 	},
 });
 
-export const { SetOrders, ResetOrdersState } = OrdersSlice.actions;
+export const { SetOrders, ResetOrders, AddOrder, DeleteOrder } =
+	OrdersSlice.actions;
 export default OrdersSlice.reducer;

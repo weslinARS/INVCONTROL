@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo } from "react";
-import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import {
+	BsFillTrashFill,
+	BsFillPencilFill,
+	BsFillEyeFill,
+} from "react-icons/bs";
 import { uid } from "react-uid";
 import { useProduct } from "../../hooks/useProducts.hook";
 import Swal from "sweetalert2";
@@ -87,7 +91,11 @@ export default function Table(props: props) {
 								<td>
 									<div
 										className='tooltip'
-										data-tip='Mostrar información'></div>
+										data-tip='Mostrar información'>
+										<button className='btn-primary btn-xs btn mx-auto'>
+											<BsFillEyeFill />
+										</button>
+									</div>
 								</td>
 							</tr>
 						);
