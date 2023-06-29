@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
-//TODO: agregar la funcion para actualizar un producto
 export const getProducts = async (userToken: string) =>
   await axios.get("http://localhost:3000/products", {
     headers: {

@@ -1,22 +1,22 @@
-import { useStore } from "../Contexts/Store.context";
 import { deleteProduct, getProducts } from "../api/products.axios";
-import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "src/app/store";
 import { createProduct } from "../api/products.axios";
 import { toast } from "react-hot-toast";
+
 export const useProduct = () => {
 	type booleanPromise = Promise<boolean>;
-	const [isProcessing, setIsProcessing] = useState<boolean>(false);
 	const user = useSelector((state: RootState) => state.User);
 	const dispatch = useDispatch();
-	console.table(user);
+	/**
+	 * funcion para buscar productos en la base de datos
+	 * @returns {boolean} - true si se encontraron productos, false si hubo un error en la busqueda 
+	 */
 	const FindProducts = async (): booleanPromise => {
 		if (user.isSetUser !== null) {
 			const productsFound = await getProducts(user.userToken);
 			if (productsFound.status === 200) {
-				console.log(productsFound.data);
 				dispatch({
 					type: "Products/SetProducts",
 					payload: productsFound.data,
@@ -38,7 +38,6 @@ export const useProduct = () => {
 		}
 	};
 	const DeleteProduct = async (productId : string) =>{
-		console.log("borrando producto con id: ", productId);
 		const response = await deleteProduct(productId, user.userToken);
 		if(response.status === 200){
 			dispatch({
@@ -48,5 +47,5 @@ export const useProduct = () => {
 			toast.success("Producto eliminado correctamente");
 		}
 	}
-	return { isProcessing, FindProducts, AddProduct, DeleteProduct };
+	return {  FindProducts, AddProduct, DeleteProduct };
 };

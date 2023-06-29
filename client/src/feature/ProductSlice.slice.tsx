@@ -28,10 +28,8 @@ export const ProductsSlice = createSlice({
 			console.table(state.products);
 		},
 		DeleteProduct: (state , action : PayloadAction<string>) =>{
-			console.log("eliminando un producto de la lista de productos");
 			state.products = state.products.filter((product : object ) => product["_id" as keyof object] !== action.payload);
-			console.log("el nuevo estado es ")
-			console.log(state.products); 
+
 		},
 		SetCategoryList: (state, action: PayloadAction<Array<object>>) => {
 			state.CategoryList = action.payload;

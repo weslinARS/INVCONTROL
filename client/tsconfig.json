@@ -29,6 +29,6 @@
     "entryPoints": ["src"],
     "out": "docs",
   },
-  "include": ["src"],
+  "include": ["src", "src/Views/DashBoardViews"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

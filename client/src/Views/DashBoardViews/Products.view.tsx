@@ -28,7 +28,6 @@ export function Productos() {
 				{isFormOpen ? (
 					<div className='mt-6 flex flex-col items-center'>
 						<ProductsForm
-							isOpenForm={isFormOpen}
 							setIsOpenForm={setIsFormOpen}
 						/>
 					</div>
