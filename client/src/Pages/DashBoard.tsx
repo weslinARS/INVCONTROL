@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Outlet } from "react-router-dom";
-import { SideBarItems } from "../Components/SideBarItems.component";
+import { SideBarItems } from "../Components/LayoutComponents/SideBarItems.component";
 import { useStore } from "../Contexts/Store.context";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { RootState } from "../Store/store";
 import { useEffect } from "react";
 import { LoadingView } from "../Components/LoadingView.component";
-import Menu from "../Components/Menu/Menu.component";
+import {Menu} from "../Components/LayoutComponents";
 export function DashBoard() {
 	const { FindDocuments, LoadingData } = useStore();
 	const user = useSelector((state: RootState) => state.User);

@@ -16,11 +16,17 @@ const SalesSlice = createSlice({
             state.sales= action.payload;
             console.log("el nuevo estado de las ventas es: ", state.sales);
         },
-        ResetSalesState : (state) => {
+        ResetSales : (state) => {
             state.sales = initialState.sales;
+        },
+        AddSale : (state , action : PayloadAction<object>) =>{          
+            state.sales = [...state.sales , action.payload]
+        },
+        DeleteSale : (state , action : PayloadAction<string>) =>{
+            state.sales = state.sales.filter((sale : object ) => sale["_id" as keyof object] !== action.payload);
         }
     }
 })
 
-export const {SetSales, ResetSalesState} = SalesSlice.actions
+export const {SetSales, ResetSales,AddSale,DeleteSale} = SalesSlice.actions
 export default SalesSlice.reducer

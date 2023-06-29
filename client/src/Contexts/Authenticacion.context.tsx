@@ -9,9 +9,16 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import {
+	categoryActionType,
+	orderActionType,
+	productaActionType,
+	salesActionType,
+	supplierActionType,
+	userActionType,
+} from "../utilities/reduxActions";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "src/app/store";
 import { Register, Login } from "../api/users.axios";
 const authcontext = createContext({} as any);
 
@@ -44,7 +51,7 @@ export default function AuthenticacionProvider({
 		const user = localStorage.getItem("user");
 		if (user) {
 			dispatch({
-				type: "User/setUserInfo",
+				type: userActionType.SetUserInfo,
 				payload: { ...JSON.parse(user), isSetUser: true },
 			});
 		}
@@ -64,7 +71,7 @@ export default function AuthenticacionProvider({
 		if (response.status === 200) {
 			setLoading(false);
 			dispatch({
-				type: "User/setUserInfo",
+				type: userActionType.SetUserInfo,
 				payload: { ...response.data, isSetUser: true },
 			});
 			localStorage.setItem("user", JSON.stringify(response.data));
@@ -74,11 +81,12 @@ export default function AuthenticacionProvider({
 	//* LOGOUT FUNCTION ===================================
 	const LogOut = () => {
 		localStorage.removeItem("user");
-		dispatch({ type: "User/resetUserInfo" });
-		dispatch({ type: "Sales/ResetSalesState" });
-		dispatch({ type: "Products/ResetProductsState" });
-		dispatch({ type: "Suppliers/ResetSuppliersState" });
-		dispatch({ type: "Orders/ResetOrdersState" });
+		dispatch({ type: userActionType.ResetUserInfo });
+		dispatch({ type: salesActionType.ResetSales });
+		dispatch({ type: productaActionType.ResetProducts });
+		dispatch({ type: categoryActionType.ResetCategories });
+		dispatch({ type: supplierActionType.ResetSuppliers });
+		dispatch({ type: orderActionType.ResetOrders });
 	};
 	//* SIGNUP FUNCTION ===================================
 	const SignUp = async (userData: IUserinfo) => {

@@ -1,5 +1,9 @@
 # INVENTORY CONTROL
 
+## descripcion de cada version
+
+[version 29.6 - reestructuracion del proyecto cliente](/Docs/version_2806.md)
+
 ## Contenido
 
 1. [Anvances del proyecto](#avances-del-proyecto)

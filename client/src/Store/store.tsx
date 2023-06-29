@@ -1,5 +1,4 @@
 import { configureStore  } from "@reduxjs/toolkit";
-import SideBarReducer from "../feature/SideBarSlice.slice"
 import ProductReducer from "../feature/ProductSlice.slice";
 import UserReducer from "../feature/UserSlice.slice";
 import SalesReducer from "../feature/SalesSlice.slice";
@@ -7,7 +6,6 @@ import SuppliersReducer from "../feature/SuppliersSlice.slice";
 import OrderReducer from "../feature/OrdersSlice.slice"
 export const store = configureStore({
     reducer: {
-        SideBar: SideBarReducer,
         Products: ProductReducer,
         User: UserReducer,
         Sales: SalesReducer,

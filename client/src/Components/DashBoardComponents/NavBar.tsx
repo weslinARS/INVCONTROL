@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../app/store";
+import { RootState } from "../../Store/store";
 import { setSideBarState } from "../../feature/SideBarSlice.slice";
 import { useAuth } from "../../Contexts/AuthContext.context";
 import { BiExit } from "react-icons/bi";

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { RootState } from "../../Store/store";
 import { BsFillPencilFill, BsArchiveFill, BsFillTagFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -13,7 +13,7 @@ import {
 	TextField,
 } from "../InputsComponent";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { ProductValidator } from "../../Validators/Product.validator";
 export interface IFormValues {
 	productName: string;
 	productPrice: number;
@@ -22,7 +22,7 @@ export interface IFormValues {
 	productCategory: string;
 	productDescription: string;
 }
-export default function ProductsForm({
+export function ProductsForm({
 	setIsOpenForm,
 }: {
 	setIsOpenForm: any;
@@ -83,27 +83,7 @@ export default function ProductsForm({
 							}
 						});
 					}}
-					validationSchema={Yup.object({
-						productName: Yup.string().required(
-							"Ingrese el nombre del produto"
-						),
-						productPrice: Yup.number()
-							.required("Ingrese el precio del producto")
-							.min(1, "el precio debe ser mayor a 0"),
-						productStock: Yup.number()
-							.required("Ingrese el stock del producto")
-							.integer("El numero debe de ser entero")
-							.min(1, "El stock debe ser mayor a 0"),
-						productSupplierId: Yup.string().required(
-							"Ingrese el proveedor del producto"
-						),
-						productCategory: Yup.string().required(
-							"Ingrese la categoria del producto"
-						),
-						productDescription: Yup.string().required(
-							"Ingrese la descripcion del producto"
-						),
-					})}
+					validationSchema={ProductValidator}
 					onReset={() => {
 						setIsOpenForm(false);
 					}}>
@@ -187,8 +167,8 @@ export default function ProductsForm({
 								// * BOTONES PARA EL FORMULARIO DE PRODUCTOS
 							}
 							<div
-								className='flex items-center justify-evenly gap-x-2  gap-y-4 
-							py-4 sm:flex-col md:flex-row '>
+								className='grid items-center justify-evenly gap-x-2  gap-y-4 
+							py-4 sm:grid-rows-2 sm:grid-cols-1 md:grid-cols-2 md:grid-rows-1 '>
 								<button
 									className='btn-primary btn'
 									type='submit'>
