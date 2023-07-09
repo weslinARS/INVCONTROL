@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Store/store";
-import { getSuppliers } from "../api/suppliers.axios";
+import { getSuppliers } from "../Api/suppliers.axios";
 import { supplierActionType } from "../utilities/reduxActions";
 export const useSuppliers = () => {
 	type booleanPromise = Promise<boolean>;

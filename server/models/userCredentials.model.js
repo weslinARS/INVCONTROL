@@ -13,12 +13,9 @@ const userSchema = new Schema({
 });
 
 /**
- *a function for creating  a new user with the given data and hash the password
+ * funcion para crear un usuario en la base de datos en la coleccion de credenciales de usuario
  * @param {string} email
  * @param {string} password
- * @param {string} lastName
- * @param {string} Name
- * @param {sring} role
  * @returns {object} user
  */
 userSchema.statics.signUp = async function (userEmail, userPassword) {
@@ -36,13 +33,17 @@ userSchema.statics.signUp = async function (userEmail, userPassword) {
 	});
 	return user;
 };
+/**
+ * funcion para verificar si el usuario existe en la base de datos y si la contraseña es correcta
+ * @param {*} userEmail 
+ * @param {*} userPassword 
+ * @returns 
+ */
 userSchema.statics.logIn = async function (userEmail, userPassword) {
 	console.log("trying to log in")
 	// verifying if the  userEmail exists in the databse
 	const user = await this.findOne({ userEmail });
 	if (!user) throw new Error("El correo no existe en la base de datos");
-	console.debug("user password : " + user.userPassword)
-	console.trace("comparing passwords")
 	// comparing the password if the user exists isValidPassword will contain a true value if not it will contain a false value
 	const isValidPassword = await bcrypt.compare(
 		userPassword,

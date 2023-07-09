@@ -8,8 +8,8 @@ interface CardProps {
 }
 export function Card(props: CardProps) {
 	return (
-		<div className="sm:carousel-item">
-			<div className='stat rounded-md sm:bg-emerald-400 md:bg-slate-200 shadow-md shadow-indigo-500/40'>
+		<div className="carousel-item ">
+			<div className='stat rounded-md bg-slate-200 shadow-md shadow-indigo-500/40'>
 				<div className='stat-figure text-primary'>{props.icon}</div>
 				<div className='stat-title'>{props.title}</div>
 				<div className='stat-value'>{props.value}</div>

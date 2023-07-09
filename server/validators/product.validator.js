@@ -43,19 +43,24 @@ const productValidator = () => {
 	];
 };
 const updateProductValidator = () => {
+	// verificar los campos solo si vienen en el body
+
 	return [
 		body("productName")
+			.optional()
 			.escape()
 			.trim()
 			.isString()
 			.withMessage("el nombre del producto debe conetener solo letras"),
-		body("productDescription").escape().trim(),
+		body("productDescription").optional().escape().trim(),
 		body("productCategory")
+			.optional()
 			.escape()
 			.trim()
 			.isString()
 			.withMessage("el nombre del producto debe conetener solo letras"),
 		body("productStock")
+			.optional()
 			.escape()
 			.trim()
 			.isNumeric()
@@ -63,12 +68,11 @@ const updateProductValidator = () => {
 			.isInt()
 			.withMessage(`El stock del producto debe ser un número entero`),
 		body("productPrice")
+			.optional()
 			.escape()
 			.trim()
 			.isNumeric()
 			.withMessage("El precio del producto debe ser un número")
-			.isInt()
-			.withMessage(`El precio del producto debe ser un número entero`),
 	];
 };
 export { productValidator, updateProductValidator };

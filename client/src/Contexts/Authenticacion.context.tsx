@@ -19,7 +19,7 @@ import {
 	userActionType,
 } from "../utilities/reduxActions";
 import { useNavigate } from "react-router-dom";
-import { Register, Login } from "../api/users.axios";
+import { Register, Login } from "../Api/users.axios";
 const authcontext = createContext({} as any);
 
 interface IUserinfo {

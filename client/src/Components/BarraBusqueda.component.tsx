@@ -1,12 +1,17 @@
-
-export function BarraBusqueda() {
+interface Props {
+  value : any;
+  onChangeFn : any;
+}
+export function BarraBusqueda({ value, onChangeFn }: Props) {
   return (
-    <div className="form-control">
+    <div className=" w-fit">
       <div className="input-group ">
         <input
           type="text"
           placeholder="Search…"
           className="input-bordered input input-sm"
+          value={value}
+          onChange={onChangeFn}
         />
         <button className="btn-square btn btn-primary btn-sm">
           <svg

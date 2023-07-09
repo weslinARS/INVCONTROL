@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { LoginPage } from "./Pages/LoginPage";
 import "./index.scss";
-import { ProtectedRoutes } from "./Routes/ProtectedRoutes";
 import { DashBoard } from "./Pages/DashBoard";
 import { DHome } from "./Views/DashBoardViews/DHome";
 import { Productos } from "./Views/DashBoardViews/Products.view";
@@ -46,7 +45,7 @@ function App() {
 						<Route
 							path='Productos'
 							element={
-								<PrivateRoute hasRole={roles.admin}>
+								<PrivateRoute hasRole= 'any'>
 									<Productos />
 								</PrivateRoute>
 							}

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Store/store";
-import { getSales } from "../api/sales.axios";
+import { getSales } from "../Api/sales.axios";
 import {salesActionType} from '../utilities/reduxActions'
 
 export const useSales = () => {

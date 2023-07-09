@@ -1,3 +1,3 @@
 import { ProductsForm } from "./ProductsForm.component";
-
-export { ProductsForm };
+import { CategoryForm } from "./CategoryForm.component";
+export { ProductsForm, CategoryForm};

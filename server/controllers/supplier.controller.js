@@ -50,3 +50,23 @@ export const deleteSupplier = async (request, response) => {
 		return response.status(500).json({ message: error.message });
 	}
 };
+
+export const updateSupplier = async (request, response) => {
+	const errors = validationResult(request);
+	if (!errors.isEmpty())
+		return response.status(400).json({ errors: errors.array() });
+	try {
+		const updatedSupplier = await Supplier.findByIdAndUpdate(
+			request.params.id,
+			request.body,
+			{ new: true }
+		);
+		if (!updatedSupplier)
+			return response
+				.status(404)
+				.json({ message: "No se encontro al proveedor a actualizar" });
+		return response.status(200).json(updatedSupplier);
+	} catch (error) {
+		return response.status(500).json({ message: error.message });
+	}
+};

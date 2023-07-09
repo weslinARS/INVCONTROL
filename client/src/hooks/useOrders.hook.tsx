@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Store/store";
-import { getOrders } from "../api/orders.axios";
+import { getOrders } from "../Api/orders.axios";
 import {orderActionType} from '../utilities/reduxActions'
 export const useOrders = () => {
 	type booleanPromise = Promise<boolean>;

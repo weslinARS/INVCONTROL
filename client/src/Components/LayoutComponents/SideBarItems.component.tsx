@@ -10,8 +10,11 @@ import {
 	HiClipboardList,
 } from "react-icons/hi";
 import { RootState } from "src/Store/store";
+import { useStore } from "../../Contexts/Store.context";
 export function SideBarItems() {
-	const role = useSelector((state : RootState) => state.User.userRole)
+	const role = useSelector((state : RootState) => state.User.userRole);
+	
+	const {LogOut	} = useStore();
 	return (
 		<div className='h-screen'>
 			<div className={``}>
@@ -60,6 +63,14 @@ export function SideBarItems() {
 							NavigateTo='/dashboard/Usuarios'
 						/>
 					)}
+					<div>
+						<button
+							className='block sm:hidden btn btn-error w-[95%] mx-2 absolute bottom-2 left-0'
+							onClick={() => LogOut()}
+						>
+							Cerrar Sesion
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

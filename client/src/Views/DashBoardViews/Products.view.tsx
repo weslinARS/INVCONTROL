@@ -1,52 +1,66 @@
-import {ProductsForm} from "../../Components/FormsComponent";
-import Table from "../../Components/Table/Table.component";
+import { ProductsForm , CategoryForm} from "../../Components/FormsComponent";
 import { RootState } from "../../Store/store";
-import { tableDataProducts } from "../../utilities/tableData";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { BiCoffeeTogo } from "react-icons/bi";
-import { BarraBusqueda } from "../../Components/BarraBusqueda.component";
 import { ButtonFormTrigger } from "../../Components/ProductsViewComponent/ButtonFormTrigger";
 import { Toaster } from "react-hot-toast";
+import { useStore } from "../../Contexts/Store.context";
+import {DataTable} from '../../Components/Table/data-table'
+import {columns} from '../../Components/ProductTable/Columns'
+
 export function Productos() {
 	const productList = useSelector(
 		(state: RootState) => state.Products.products
 	);
-	const [isFormOpen, setIsFormOpen] = useState(false);
+	const [isProductFormOpen, setisProductFormOpen] = useState(false);
+	const [isCategoryFormOpen, setisCategoryFormOpen] = useState(false);
+	const { isProductToEdit, productToEdit } = useStore();
 	return (
-		<div className='w-full px-8 py-4'>
+		<div className=' py-4 '>
 			<div className=''>
 				<h1 className='flex flex-row text-4xl font-bold '>
 					<BiCoffeeTogo />
 					Productos
 				</h1>
 				<span className='ml-2 text-lg font-bold text-primary '>
-					{!isFormOpen
-						? "Visualizar Productos"
-						: "Registrar Productos"}
+					{isProductToEdit
+						? "Editar Producto"
+						: isProductFormOpen
+						? "Registrar Productos"
+						: "Visualizar Productos"}
 				</span>
-				{isFormOpen ? (
-					<div className='mt-6 flex flex-col items-center'>
-						<ProductsForm
-							setIsOpenForm={setIsFormOpen}
+				{(!isProductFormOpen &&  !isCategoryFormOpen)  && (
+					<div className='mt-4 inline-flex w-screen justify-center gap-4'>
+						<ButtonFormTrigger
+						buttonText="Agregar Producto"
+							triggerFunction={() => setisProductFormOpen(!isProductFormOpen)}
 						/>
+						<ButtonFormTrigger
+						buttonText="Agregar Categoría"
+							triggerFunction={() => setisCategoryFormOpen(!isCategoryFormOpen)}
+						/>
+					</div>
+				)}
+				{
+					isCategoryFormOpen &&(
+						<div>
+							<CategoryForm setIsOpenForm={setisCategoryFormOpen}></CategoryForm>
+						</div>
+					)
+				}
+				{isProductFormOpen || isProductToEdit ? (
+					<div className='mt-6 flex flex-col items-center'>
+						<ProductsForm setIsOpenForm={setisProductFormOpen} />
 					</div>
 				) : (
-					<div className='flex flex-col  items-center  justify-center p-4 '>
-						<div className='flexrow mx-auto flex gap-2 rounded-lg bg-slate-50 px-2 py-4 shadow-sm '>
-							<BarraBusqueda />
-							<ButtonFormTrigger
-								triggerFunction={() =>
-									setIsFormOpen(!isFormOpen)
-								}
-							/>
-						</div>
-						<Table
-							objectIdKey='productId'
-							labels={tableDataProducts}
+					<>
+						<DataTable
+							columns={columns}
 							data={productList}
+							key={productList.length}
 						/>
-					</div>
+					</>
 				)}
 			</div>
 			<Toaster />

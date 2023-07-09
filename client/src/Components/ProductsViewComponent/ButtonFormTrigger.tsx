@@ -1,10 +1,14 @@
 
-export function ButtonFormTrigger({triggerFunction}: {triggerFunction: any}) {
+interface ButtonFormTriggerProps {
+    triggerFunction: any;
+    buttonText: string;
+}
+export function ButtonFormTrigger({triggerFunction,buttonText}: ButtonFormTriggerProps) {
     return (
-        <>
+        <div className=" w-fit">
             <button className="btn btn-primary btn-sm" onClick={triggerFunction}>
-                Insertar Producto
+                {buttonText}
             </button>
-        </>
+        </div>
   )
 }

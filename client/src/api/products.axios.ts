@@ -27,5 +27,17 @@ export const deleteProduct = async (id: string, userToken: string) =>
     },
     params: {
       id,
-    }
+    },
+  });
+
+export const updateProduct = async (
+  id: string,
+  product: any,
+  userToken: string
+) =>
+  await axios.put(`http://localhost:3000/products/${id}`, product, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${userToken}`,
+    },
   });

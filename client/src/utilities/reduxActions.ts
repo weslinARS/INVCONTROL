@@ -3,12 +3,14 @@ export const productaActionType = {
   ResetProducts: "Products/ResetProductsState",
   AddProduct: "Products/AddProduct",
   DeleteProduct: "Products/DeleteProduct",
+  UpdateProduct: "Products/UpdateProduct",
 };
 export const categoryActionType = {
-  SetCategories: "Products/setCategoryList",
+  SetCategories: "Products/SetCategoryList",
   ResetCategories: "Products/ResetCategoryList",
   AddCategory: "Products/AddCategory",
   DeleteCategory: "Products/DeleteCategory",
+  UpdateCategory: "Products/UpdateCategory",
 };
 
 export const userActionType = {

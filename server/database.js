@@ -4,8 +4,14 @@ import {MONGODB_URI} from './config.js'
 export async function connectDB(){
   try{
     const db = await mongoose.connect(MONGODB_URI);
-    console.log("DATABASE IS CONNECTED TO : ", db.connection.name);
   }catch(error){
     console.log(error); 
+  }
+}
+export async function disconnectDB(){
+  try{
+    await mongoose.disconnect();
+  }catch(error){
+    console.log(error);
   }
 }

@@ -1,8 +1,9 @@
-import { getCategories } from "../api/categories.axios";
+import { getCategories, createCategory } from "../Api/categories.axios";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "src/Store/store";
 import { categoryActionType } from "../utilities/reduxActions";
+import {IRawCategory} from '../interfaces/ICategory'
 export const useCategories = () => {
 	type booleanPromise = Promise<boolean>;
 	const user = useSelector((state: RootState) => state.User);
@@ -20,5 +21,21 @@ export const useCategories = () => {
 		}
 		return false;
 	};
-	return {FindCategories};
+	const AddCategory = async (category : IRawCategory): booleanPromise => {
+		if (user.isSetUser !== null) {
+			const categoryAdded = await createCategory(
+				category,
+				user.userToken,
+			);
+			if (categoryAdded.status === 201) {
+				dispatch({
+					type: categoryActionType.AddCategory,
+					payload: categoryAdded.data,
+				});
+				return true;
+			}
+		}
+		return false;
+	};
+	return { FindCategories, AddCategory };
 };

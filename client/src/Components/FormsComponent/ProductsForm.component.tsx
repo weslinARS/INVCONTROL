@@ -14,20 +14,19 @@ import {
 } from "../InputsComponent";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ProductValidator } from "../../Validators/Product.validator";
-export interface IFormValues {
-	productName: string;
-	productPrice: number;
-	productStock: number;
-	productSupplierId: string;
-	productCategory: string;
-	productDescription: string;
-}
-export function ProductsForm({
-	setIsOpenForm,
-}: {
+import { IProduct, IRawProduct } from "../../interfaces/IProduct.interface";
+import { useStore } from "../../Contexts/Store.context";
+export interface IFormProps {
 	setIsOpenForm: any;
-}) {
-	const { AddProduct } = useProduct();
+}
+export function ProductsForm({ setIsOpenForm }: IFormProps) {
+	const {
+		setIsProductToEdit,
+		isProductToEdit,
+		productToEdit,
+		setProductToEdit,
+	} = useStore();
+	const { AddProduct, UpdateProduct } = useProduct();
 	// adapting sweet alert to react
 	const MySwal = withReactContent(Swal);
 	const CategoryList = useSelector(
@@ -37,7 +36,7 @@ export function ProductsForm({
 		(state: RootState) => state.Suppliers.suppliers
 	);
 	return (
-		<div className='ml-2 w-fit rounded-md bg-slate-200 px-4 py-6 '>
+		<div className='w-fit rounded-md bg-slate-200 px-4 py-6 '>
 			<p className=' py-2 sm:w-[35ch] md:w-[40ch]'>
 				Agregue la informacion necesaria para registrar un producto en
 				el &nbsp;
@@ -47,30 +46,39 @@ export function ProductsForm({
 			</p>
 			<div>
 				<Formik
-					initialValues={{
-						productName: "",
-						productPrice: 0,
-						productStock: 0,
-						productSupplierId: "",
-						productCategory: "",
-						productDescription: "",
-					}}
-					onSubmit={(values: IFormValues, action: any) => {
+					initialValues={
+						!isProductToEdit
+							? {
+									productName: "",
+									productPrice: 0,
+									productStock: 0,
+									productSupplierId: "",
+									productCategory: "",
+									productDescription: "",
+							}
+							: { ...productToEdit }
+					}
+					onSubmit={(values: IRawProduct, action: any) => {
 						MySwal.fire({
-							title: "Deseas agregar este producto",
+							title: isProductToEdit
+								? "Deseas Actualizar el Producto"
+								: "Deseas agregar este producto",
 							text: "Una vez agregado no podras modificarlo",
 							icon: "question",
 							showCancelButton: true,
-							confirmButtonText: "Si, agregar",
+							confirmButtonText: isProductToEdit
+								? "Si, editar"
+								: "Si, agregar",
 							cancelButtonText: "Cancelar",
 							confirmButtonColor: "bg-primary",
-							didOpen: () => {
-								console.log(values);
-							},
 						}).then(async (result) => {
 							if (result.isConfirmed) {
-								console.table(values);
-								await AddProduct(values);
+								if (isProductToEdit)
+									UpdateProduct({
+										...values,
+										_id: productToEdit._id,
+									});
+								else AddProduct(values);
 								action.resetForm({
 									productName: "",
 									productPrice: 0,
@@ -79,7 +87,10 @@ export function ProductsForm({
 									productCategory: "",
 									productDescription: "",
 								});
-								//handleSubmitProduct(getValues());
+								if (isProductToEdit) {
+									setProductToEdit(undefined);
+									setIsProductToEdit(false);
+								}
 							}
 						});
 					}}
@@ -127,22 +138,24 @@ export function ProductsForm({
 									// * INPUT DESCRIPCION PRODUCT
 								}
 								<div className='form-control'>
-									<label
-										htmlFor='productDescription'
-										className='label-text'>
-										Descripcion del producto
-									</label>
-									<Field
-										name='productDescription'
-										as='textarea'
-										className='input-bordered input  sm:input-group-sm  lg:input-md sm:max-w-xs md:max-w-md'
-										placeholder='Descripcion del producto'
-									/>
-									<ErrorMessage
-										name='productDescription'
-										component={"p"}
-										className='font-semibold text-error'
-									/>
+									<div className='form-control'>
+										<label className='label'>
+											<span className='label-text'>
+												Descripcion del producto
+											</span>
+										</label>
+										<Field
+											name='productDescription'
+											as='textarea'
+											className='input-bordered input  sm:input-group-sm  lg:input-md sm:max-w-xs md:max-w-md'
+											placeholder='Descripcion del producto'
+										/>
+										<ErrorMessage
+											name='productDescription'
+											component={"span"}
+											className='text-sm font-semibold text-error'
+										/>
+									</div>
 								</div>
 								{
 									// * INPUT CATEGORIA PRODUCT
@@ -168,19 +181,31 @@ export function ProductsForm({
 							}
 							<div
 								className='grid items-center justify-evenly gap-x-2  gap-y-4 
-							py-4 sm:grid-rows-2 sm:grid-cols-1 md:grid-cols-2 md:grid-rows-1 '>
+							py-4 sm:grid-cols-1 sm:grid-rows-2 md:grid-cols-2 md:grid-rows-1 '>
 								<button
 									className='btn-primary btn'
 									type='submit'>
 									agregar producto
 								</button>
-								<button
-									className='btn-error btn '
-									onClick={() => {
-										handleReset();
-									}}>
-									Cancelar Registro
-								</button>
+								{!isProductToEdit ? (
+									<button
+										className='btn-error btn '
+										onClick={() => {
+											handleReset();
+										}}>
+										Cancelar Registro
+									</button>
+								) : (
+									<button
+										className='btn-error btn '
+										onClick={() => {
+											handleReset();
+											setIsProductToEdit(false);
+											setProductToEdit(null);
+										}}>
+										Cancelar Edicion
+									</button>
+								)}
 							</div>
 						</Form>
 					)}

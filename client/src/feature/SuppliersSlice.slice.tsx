@@ -1,30 +1,43 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+	Add,
+	RemoveById,
+	UpdateArray,
+} from "../utilities/CRUDFunctions.utilities";
+
+//TODO: add supplier hasOrder field t0 the supplier type
+type Supplier = {
+	_id: string;
+	supplierName: string;
+	supplierEmail: string[];
+	supplierPhoneNumber: string[];
+};
 export interface Suppliers {
-	suppliers: Array<object>;
+	suppliers: Supplier[];
 }
 const initialState: Suppliers = {
-	suppliers:[],
+	suppliers: [],
 };
 
 const SuppliersSlice = createSlice({
 	name: "Suppliers",
 	initialState,
 	reducers: {
-		SetSuppliers: (state, action: PayloadAction<Array<object>>) => {
+		SetSuppliers: (state, action: PayloadAction<Array<Supplier>>) => {
 			state.suppliers = action.payload;
 		},
 		ResetSuppliers: (state) => {
 			state.suppliers = initialState.suppliers;
 		},
-		AddSupplier: (state, action: PayloadAction<object>) => {
-			state.suppliers = [...state.suppliers, action.payload];
+		AddSupplier: (state, action: PayloadAction<Supplier>) => {
+			state.suppliers = Add(state.suppliers, action.payload);
 		},
 		DeleteSupplier: (state, action: PayloadAction<string>) => {
-			state.suppliers = state.suppliers.filter(
-				(supplier: object) =>
-					supplier["_id" as keyof object] !== action.payload
-			);
+			state.suppliers = RemoveById(state.suppliers, action.payload);
+		},
+		UpdateSuppliers: (state, action: PayloadAction<Supplier>) => {
+			state.suppliers = UpdateArray(state.suppliers, action.payload);
 		},
 	},
 });
@@ -35,4 +48,5 @@ export const {
 	ResetSuppliers,
 	AddSupplier,
 	DeleteSupplier,
+	UpdateSuppliers,
 } = SuppliersSlice.actions;

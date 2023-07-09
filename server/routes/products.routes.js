@@ -12,13 +12,11 @@ import {
 } from "../validators/product.validator.js";
 import { requireAuthentication } from "../middleware/requireAuthentication.middleware.js";
 const router = Router();
-//! MIDDLEWARE =======================================
-router.use(requireAuthentication);
 //! ROUTES =======================================
-router.get("/products", getProducts);
-router.get("/products/:id", getProduct);
-router.post("/products", productValidator(), createProduct);
-router.put("/products/:id", updateProductValidator(), updateProduct);
-router.delete("/products/:id", deleteProduct);
+router.get("/products",requireAuthentication,getProducts);
+router.get("/products/:id", requireAuthentication,getProduct);
+router.post("/products", requireAuthentication,productValidator(), createProduct);
+router.put("/products/:id", requireAuthentication,updateProductValidator(), updateProduct);
+router.delete("/products/:id",requireAuthentication, deleteProduct);
 
 export default router;

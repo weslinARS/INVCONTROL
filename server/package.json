@@ -1,31 +1,39 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js --ignore \"/client\""
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.2",
-    "concurrently": "^8.2.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "express-validator": "^7.0.1",
-    "http-errors": "^2.0.0",
-    "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.6.0",
-    "mongoose": "^7.3.1",
-    "nodemon": "^2.0.22"
-  },
-  "devDependencies": {
-    "morgan": "^1.10.0"
-  }
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "jest --watchAll Supplier",
+		"build": "cross-env NODE_OPTIONS=--experimental-vm-modules npm test",
+		"dev": "nodemon index.js --ignore \"/client\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.1.0",
+		"body-parser": "^1.20.2",
+		"concurrently": "^8.2.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.3.1",
+		"express": "^4.18.2",
+		"express-validator": "^7.0.1",
+		"http-errors": "^2.0.0",
+		"jest-serial-runner": "^1.2.1",
+		"jsonwebtoken": "^9.0.0",
+		"mongodb": "^5.6.0",
+		"mongoose": "^7.3.1",
+		"nodemon": "^2.0.22",
+		"supertest": "^6.3.3"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.22.8",
+		"@babel/preset-env": "^7.22.7",
+		"cross-env": "^7.0.3",
+		"jasmine": "^5.0.2",
+		"jest": "^29.6.1",
+		"morgan": "^1.10.0"
+	}
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Outlet } from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import { SideBarItems } from "../Components/LayoutComponents/SideBarItems.component";
 import { useStore } from "../Contexts/Store.context";
 import { useSelector } from "react-redux";

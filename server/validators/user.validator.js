@@ -18,7 +18,7 @@ export const loginValidation = () => {
 			.withMessage("contraseña debe ser un string"),
 	];
 };
-export const signUpValidation = () => {
+export const UserDataValidation = () => {
 	return [
 		body("userName")
 			.trim()

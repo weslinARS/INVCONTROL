@@ -4,13 +4,15 @@ import UserReducer from "../feature/UserSlice.slice";
 import SalesReducer from "../feature/SalesSlice.slice";
 import SuppliersReducer from "../feature/SuppliersSlice.slice";
 import OrderReducer from "../feature/OrdersSlice.slice"
+import CashRegisterReducer from '../feature/CashRegister.slice'
 export const store = configureStore({
     reducer: {
         Products: ProductReducer,
         User: UserReducer,
         Sales: SalesReducer,
         Suppliers : SuppliersReducer, 
-        Orders: OrderReducer
+        Orders: OrderReducer,
+        CashRegister: CashRegisterReducer
     }
 })
 // Infer the `RootState` and `AppDispatch` types from the store itself
