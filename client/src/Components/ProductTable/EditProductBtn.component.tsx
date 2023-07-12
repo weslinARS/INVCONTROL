@@ -9,7 +9,7 @@ export function EditProductBtn({ product }: IProps) {
 	return (
 		<>
 			<span
-				className='dropDownItem'
+				className='dropDownItem hover:cursor-pointer'
 				onClick={() => {
 					setProductToEdit({ ...product });
           setIsProductToEdit(!isProductToEdit);

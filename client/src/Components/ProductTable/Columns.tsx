@@ -1,4 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
+import { BsAsterisk } from "react-icons/bs";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,6 +10,8 @@ import {
 } from "../../src/components/ui/dropdown-menu";
 import { EditProductBtn } from "./EditProductBtn.component";
 import { DeleteProductBtn } from "./DeleteProductBtn.component";
+import { ViewProductButton } from "./ViewProductButton.component";
+
 type Product = {
 	_id: string;
 	productName: string;
@@ -73,32 +76,36 @@ export const columns = [
 	}),
 	columnHelper.display({
 		id: "actions",
-		header: () => <div className='font-bold text-white'>Acciones</div>,
+		header: () => (
+			<div className='text-center font-bold text-white'>Acciones</div>
+		),
 		cell: ({ row }) => {
 			const product = row.original;
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger>
-						<span className='btn-neutral btn-sm btn'>
-							Acciones
-						</span>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuLabel>
-							{product.productName}
-						</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<EditProductBtn product={product} />
-						</DropdownMenuItem>
-						<DropdownMenuItem >
-							<DeleteProductBtn id={product._id} />
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<a href=''>Ver</a>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<div className="text-center">
+					<DropdownMenu>
+						<DropdownMenuTrigger>
+							<span className='btn-neutral btn-sm btn hover:cursor-pointer'>
+								<BsAsterisk />
+							</span>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent>
+							<DropdownMenuLabel>
+								{product.productName}
+							</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								<EditProductBtn product={product} />
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								<DeleteProductBtn id={product._id} />
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								<ViewProductButton  productInfo={product} />
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			);
 		},
 	}),

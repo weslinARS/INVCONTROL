@@ -11,6 +11,8 @@ export const categoryActionType = {
   AddCategory: "Products/AddCategory",
   DeleteCategory: "Products/DeleteCategory",
   UpdateCategory: "Products/UpdateCategory",
+  SetEditCategory: "Products/SetEditCategory",
+  ResetEditCategory: "Products/ResetEditCategory",
 };
 
 export const userActionType = {

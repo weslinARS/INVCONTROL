@@ -42,5 +42,13 @@ export const createSalesValidator = () => {
 			.withMessage(
 				"El monto recolectado del producto debe ser un número"
 			),
+			body("SaleProducts.*.soldProductId")
+			.trim()
+			.escape()
+			.notEmpty()
+			.withMessage("El id del producto vendido es requerido")
+			.isString()
+			.withMessage("El id del producto vendido debe de se un string")
+			
 	];
 };

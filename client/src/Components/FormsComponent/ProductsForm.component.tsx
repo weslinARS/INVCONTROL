@@ -14,7 +14,7 @@ import {
 } from "../InputsComponent";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ProductValidator } from "../../Validators/Product.validator";
-import { IProduct, IRawProduct } from "../../interfaces/IProduct.interface";
+import { IRawProduct } from "../../interfaces/IProduct.interface";
 import { useStore } from "../../Contexts/Store.context";
 export interface IFormProps {
 	setIsOpenForm: any;

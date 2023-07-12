@@ -70,7 +70,7 @@ export function DataTable({ columns, data }: DataTableProps) {
 				}}
 				/>
       </div>
-				<Table className='rounded-md border w-[90vw] mt-4'>
+				<Table className='rounded-md border w-[70vw] mt-4'>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>

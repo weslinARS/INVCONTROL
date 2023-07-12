@@ -12,7 +12,14 @@ export const getProducts = async (request, response) => {
 export const createProduct = async (request, response) => {
 	const errors = validationResult(request);
 	if (!errors.isEmpty()) {
-		return response.status(400).json({ errors: errors.array() });
+		const errorsArray = errors.array();
+		errorsArray.map((error) => {
+			console.log(error.msg);
+		});
+		const errorsArrayAdapted = errorsArray.map((error) => {
+			return { field: error.path, message: error.msg };
+		});
+		return response.status(400).json({PropertiesErrors : errorsArrayAdapted});
 	}
 	try {
 		const product = request.body;
@@ -51,7 +58,9 @@ export const deleteProduct = async (request, response) => {
 			request.params.id
 		);
 		if (!productDeleted)
-			return response.status(404).json({ message: "producto no encontrado" });
+			return response
+				.status(404)
+				.json({ message: "producto no encontrado" });
 		return response.status(200).json(productDeleted);
 	} catch (error) {
 		return response.status(500).json({ message: error.message });

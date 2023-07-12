@@ -22,7 +22,7 @@ export function DeleteProductBtn({ id }: { id: string }) {
 	};
 	return (
 		<span
-			className='dropDownItem'
+			className='dropDownItem hover:cursor-pointer'
 			onClick={() => handleDelete(id)}>
 			<BsFillTrashFill />
 			&nbsp;

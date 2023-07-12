@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISales } from "../interfaces/ISells.interface";
+import { ISales } from "../interfaces/ISales.interface";
 import {
 	Add,
 	RemoveById,

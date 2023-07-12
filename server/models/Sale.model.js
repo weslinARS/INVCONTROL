@@ -1,4 +1,4 @@
-import { Double, Int32 } from "mongodb";
+import { Double, Int32, ObjectId } from "mongodb";
 import { Schema, model } from "mongoose";
 
 const SaleSchema = new Schema({
@@ -20,6 +20,10 @@ const SaleSchema = new Schema({
 				type: Number,
 				required: true,
 			},
+			soldProductId : {
+				type : ObjectId,
+				required : true
+			}
 		},
 	],
 });

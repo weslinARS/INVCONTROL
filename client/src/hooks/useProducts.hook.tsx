@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	deleteProduct,
 	getProducts,
@@ -10,11 +11,19 @@ import { RootState } from "src/Store/store";
 import { toast } from "react-hot-toast";
 import { productaActionType } from "../utilities/reduxActions";
 import { IProduct } from "../interfaces/IProduct.interface";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { AxiosError } from "axios";
+import { uid } from "react-uid";
+type errorData = {
+	message: string;
+	field: string;
+};
 export const useProduct = () => {
 	type booleanPromise = Promise<boolean>;
 	const user = useSelector((state: RootState) => state.User);
-
 	const dispatch = useDispatch();
+	const mySwal = withReactContent(Swal);
 	/**
 	 * funcion para buscar productos en la base de datos
 	 * @returns {boolean} - true si se encontraron productos, false si hubo un error en la busqueda
@@ -33,14 +42,46 @@ export const useProduct = () => {
 		return false;
 	};
 	const AddProduct = async (product: object) => {
+		console.trace("añadiendo");
 		const productFormated = JSON.stringify(product);
-		const response = await createProduct(productFormated, user.userToken);
-		if (response.status === 201) {
-			dispatch({
-				type: productaActionType.AddProduct,
-				payload: response.data,
-			});
-			toast.success("Producto agregado correctamente");
+		console.log(productFormated);
+		try {
+			const response = await createProduct(
+				productFormated,
+				user.userToken
+			);
+			console.log("estatus", response.status);
+			console.trace("sks");
+			console.log(response);
+			if (response.status === 201) {
+				dispatch({
+					type: productaActionType.AddProduct,
+					payload: response.data,
+				});
+				toast.success("Producto agregado correctamente");
+			}
+		} catch (error: any) {
+			const response = error.response;
+			if (response.status === 400) {
+				console.log("hay errores ");
+				const errors = response.data.PropertiesErrors;
+				mySwal.fire({
+					title: "Error en los datos",
+					icon: "error",
+					html: (
+						<div className='prose text-left'>
+							<h3 className='text-error'>Errores encontrados</h3>
+							<ul>
+								{errors.map((error: errorData) => (
+									<li key={uid(error.message)}>
+										{error.message}
+									</li>
+								))}
+							</ul>
+						</div>
+					),
+				});
+			}
 		}
 	};
 	const DeleteProduct = async (productId: string) => {

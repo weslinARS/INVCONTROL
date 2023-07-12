@@ -11,6 +11,7 @@ import { useSales } from "../hooks/useSales.hook";
 import { useSuppliers } from "../hooks/useSuppliers.hook";
 import { useState } from "react";
 import { IProduct } from "../interfaces/IProduct.interface";
+import { ICategory } from "../interfaces/ICategory";
 export const storeContext = createContext({} as any);
 export const useStore = () => {
 	const context = useContext(storeContext);
@@ -29,6 +30,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 		undefined
 	);
 	const [isProductToEdit, setIsProductToEdit] = useState<boolean>(false);
+	const [isCategoryToEdit, setIsCategoryToEdit] = useState<boolean>(false);
+	const [categoryToEdit, setCategoryToEdit] = useState<ICategory| undefined>(undefined);
 	useEffect(() => {
 		if (user.isSetUser) {
 			FindDocuments();
@@ -63,6 +66,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 		setProductToEdit,
 		isProductToEdit,
 		setIsProductToEdit,
+		isCategoryToEdit,
+		setIsCategoryToEdit,
 	};
 	return (
 		<storeContext.Provider value={values}>{children}</storeContext.Provider>

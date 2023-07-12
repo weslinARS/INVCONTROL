@@ -11,6 +11,7 @@ import {
 	updateProductValidator,
 } from "../validators/product.validator.js";
 import { requireAuthentication } from "../middleware/requireAuthentication.middleware.js";
+import { body } from "express-validator";
 const router = Router();
 //! ROUTES =======================================
 router.get("/products",requireAuthentication,getProducts);

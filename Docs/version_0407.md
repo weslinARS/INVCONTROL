@@ -1,7 +1,7 @@
 
-# Version 04.07
+# Version 12.07
 
-__fecha__ : 04/07/2023
+__fecha__ : 12/07/2023
 
 la version 04.07 se enfoca principalmente en cubrir las funcionalidades crud de las entidades creadas, asi pues se ha realizado las modificaciones necesarias para cumplir con tal objetivo tanto en el frontend como el backend.
 ***
@@ -21,6 +21,11 @@ __ruta__ : `client/src/features`
 __ruta__ : `client/src/hooks`
 
 * se han agregado las funciones necesarias en los hooks para poder realizar las peticiones al servidor de las operaciones CRUD.
+
+### Componentes
+
+* Formularios para registrar y editar productos.
+* Formulario para registrar una nueva categoria.
 
 ## Avances backend
 

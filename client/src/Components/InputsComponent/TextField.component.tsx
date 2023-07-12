@@ -5,6 +5,7 @@ interface ITextInputProps {
 	fieldName: string;
 	inputIcon: JSX.Element;
 	value: string;
+	type ? : string; 
 }
 export function TextField(props: ITextInputProps) {
 	return (
@@ -18,7 +19,7 @@ export function TextField(props: ITextInputProps) {
 						{props.inputIcon}
 					</span>
 					<Field
-						type='text'
+						type={props?.type ?  props.type : 'text'}
 						name={props.fieldName}
 						placeholder={props.placeHolder}
 						className='input-bordered input  sm:input-group-sm  lg:input-md sm:max-w-xs md:max-w-md'

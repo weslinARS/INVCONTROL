@@ -3,7 +3,7 @@ import Sales from "../models/Sale.model.js";
 
 export const getSales = async (request, response) => {
 	try {
-		const sales = await Sales.find();
+		const sales = await Sales.find().select("-__v");
 		response.status(200).json(sales);
 	} catch (error) {
 		response.status(404).json({ message: error.message });

@@ -1,4 +1,4 @@
-import { getCategories, createCategory } from "../Api/categories.axios";
+import { getCategories, createCategory, deleteCategory } from "../Api/categories.axios";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "src/Store/store";
@@ -37,5 +37,23 @@ export const useCategories = () => {
 		}
 		return false;
 	};
-	return { FindCategories, AddCategory };
+	/**
+	 * funcion para llamar a la api y eliminar una categoria
+	 * @param id 
+	 * @returns {object} - devuelve una promesa y en su contenido el elemento elimninado
+	 */
+	const DeleteCategory = async (id: string): booleanPromise => {
+		if(user.isSetUser!== null){
+			const categoryDeleted = await deleteCategory(id, user.userToken);
+			if(categoryDeleted.status === 204){
+				dispatch({
+					type: categoryActionType.DeleteCategory,
+					payload: id,
+				})
+				return true;
+			}
+		}
+		return false;
+	}
+	return { FindCategories, AddCategory , DeleteCategory};
 };
