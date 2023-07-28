@@ -4,6 +4,7 @@ import { getValidationErrors } from "../utilities/getValidationErrors.utilities"
 export const ProductInterceptor = () => {
 	axios.interceptors.response.use(
 		(response) => {
+			console.log(response);
 			return response;
 		},
 		(error) => {

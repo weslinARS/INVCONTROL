@@ -40,7 +40,6 @@ userSchema.statics.signUp = async function (userEmail, userPassword) {
  * @returns 
  */
 userSchema.statics.logIn = async function (userEmail, userPassword) {
-	console.log("trying to log in")
 	// verifying if the  userEmail exists in the databse
 	const user = await this.findOne({ userEmail });
 	if (!user) throw new Error("El correo no existe en la base de datos");

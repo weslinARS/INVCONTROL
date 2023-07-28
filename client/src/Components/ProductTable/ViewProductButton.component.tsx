@@ -44,6 +44,12 @@ export function ViewProductButton({ productInfo }: IProps) {
 							</span>
 							{product.productStock}
 						</span>
+						<span>
+							<span className='font-bold text-primary'>
+								Cantidad minima del producto:
+							</span>
+							{product.productStockPolicy}
+						</span>
 					</div>
 				</div>
 			),

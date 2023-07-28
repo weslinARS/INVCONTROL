@@ -1,4 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
+import { BadgeDelta } from "@tremor/react";
 import { BsAsterisk } from "react-icons/bs";
 import {
 	DropdownMenu,
@@ -8,8 +9,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../../src/components/ui/dropdown-menu";
-import { EditProductBtn } from "./EditProductBtn.component";
 import { DeleteProductBtn } from "./DeleteProductBtn.component";
+import { EditProductBtn } from "./EditProductBtn.component";
 import { ViewProductButton } from "./ViewProductButton.component";
 
 type Product = {
@@ -20,6 +21,8 @@ type Product = {
 	productStock: number;
 	productCategory: string;
 	productSupplierId: string;
+	productStockPolicy: number;
+	productIsOverPolicy: boolean;
 };
 const columnHelper = createColumnHelper<Product>();
 export const columns = [
@@ -75,14 +78,36 @@ export const columns = [
 		),
 	}),
 	columnHelper.display({
-		id: "actions",
+		id: "productIsOverPolicy",
+		header: () => (
+			<div className='text-right font-bold text-white'>Estado</div>
+		),
+		cell: ({ row }) => {
+			const stockPolicy = row.original.productIsOverPolicy;
+			return (
+				<div className='text-right'>
+					{stockPolicy ? (
+						<BadgeDelta deltaType='moderateIncrease'>
+							En existencia
+						</BadgeDelta>
+					) : (
+						<BadgeDelta deltaType='moderateDecrease'>
+							Agotandose
+						</BadgeDelta>
+					)}
+				</div>
+			);
+		},
+	}),
+	columnHelper.display({
+		id: "actions ",
 		header: () => (
 			<div className='text-center font-bold text-white'>Acciones</div>
 		),
 		cell: ({ row }) => {
 			const product = row.original;
 			return (
-				<div className="text-center">
+				<div className='text-center'>
 					<DropdownMenu>
 						<DropdownMenuTrigger>
 							<span className='btn-neutral btn-sm btn hover:cursor-pointer'>
@@ -101,7 +126,7 @@ export const columns = [
 								<DeleteProductBtn id={product._id} />
 							</DropdownMenuItem>
 							<DropdownMenuItem>
-								<ViewProductButton  productInfo={product} />
+								<ViewProductButton productInfo={product} />
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>

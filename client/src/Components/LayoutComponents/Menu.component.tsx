@@ -21,7 +21,7 @@ export function Menu({ children, sideBarContent }: MenuProps) {
 	}, []);
 	const { LogOut } = useAuthenticacion();
 	return (
-		<div className='drawer'>
+		<div className='drawer '>
 			<input
 				id='my-drawer'
 				type='checkbox'
@@ -29,7 +29,7 @@ export function Menu({ children, sideBarContent }: MenuProps) {
 			/>
 			<div className='drawer-content'>
 				{/* Page content here */}
-				<div className='navbar bg-dark-900'>
+				<div className='navbar bg-dark-900 '>
 					<div className='flex-none'>
 						<label
 							htmlFor='my-drawer'

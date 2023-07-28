@@ -7,10 +7,13 @@ export interface ISoldProduct{
     soldProductId: string;
     soldProductName : string;
     soldProductQuantity : number;
-    soldProductAmount: number;
+    soldProductAmountCollected: number;
+    soldProductCategory: string;
 }
 export interface ISales{
     _id : string;
-    saleDate: string;
+    saleDate: Date;
+    saleSellerId: string;
+    saleAmountCollected : number;
     saleProducts: Array<ISoldProduct>;
 }

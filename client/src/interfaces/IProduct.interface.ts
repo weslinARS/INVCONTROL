@@ -6,6 +6,8 @@ export interface IProduct {
     productCategory: string;
     _id: string;
     productSupplierId: string;
+    productStockPolicy: number;
+    productIsOverPolicy: boolean;
 }
 
 export interface IRawProduct {
@@ -15,4 +17,6 @@ export interface IRawProduct {
     productStock: number;
     productCategory: string;
     productSupplierId: string;
+    productStockPolicy: number;
+    productIsOverPolicy: boolean;
 }

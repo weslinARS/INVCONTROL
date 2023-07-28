@@ -1,17 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import { ReactNode, createContext, useContext, useEffect } from "react";
+import {
+	ReactNode,
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../Store/store";
-import { useProduct } from "../hooks/useProducts.hook";
+import { useCashRegister } from "../hooks";
 import { useCategories } from "../hooks/useCategories.hook";
 import { useOrders } from "../hooks/useOrders.hook";
+import { useProduct } from "../hooks/useProducts.hook";
 import { useSales } from "../hooks/useSales.hook";
 import { useSuppliers } from "../hooks/useSuppliers.hook";
-import { useState } from "react";
-import { IProduct } from "../interfaces/IProduct.interface";
 import { ICategory } from "../interfaces/ICategory";
+import { IProduct } from "../interfaces/IProduct.interface";
 export const storeContext = createContext({} as any);
 export const useStore = () => {
 	const context = useContext(storeContext);
@@ -31,7 +37,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 	);
 	const [isProductToEdit, setIsProductToEdit] = useState<boolean>(false);
 	const [isCategoryToEdit, setIsCategoryToEdit] = useState<boolean>(false);
-	const [categoryToEdit, setCategoryToEdit] = useState<ICategory| undefined>(undefined);
+	const [categoryToEdit, setCategoryToEdit] = useState<ICategory | undefined>(
+		undefined
+	);
+	const [isSaleToEdit, setIsSaleToEdit] = useState<boolean>(false);
+	const [saleToEdit, setSaleToEdit] = useState<any>(undefined);
 	useEffect(() => {
 		if (user.isSetUser) {
 			FindDocuments();
@@ -68,6 +78,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 		setIsProductToEdit,
 		isCategoryToEdit,
 		setIsCategoryToEdit,
+		categoryToEdit,
+		saleToEdit,
+		setSaleToEdit,
+		isSaleToEdit,
+		setIsSaleToEdit,
 	};
 	return (
 		<storeContext.Provider value={values}>{children}</storeContext.Provider>

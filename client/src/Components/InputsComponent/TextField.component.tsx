@@ -6,6 +6,7 @@ interface ITextInputProps {
 	inputIcon: JSX.Element;
 	value: string;
 	type ? : string; 
+	readonly?: boolean;
 }
 export function TextField(props: ITextInputProps) {
 	return (
@@ -22,15 +23,13 @@ export function TextField(props: ITextInputProps) {
 						type={props?.type ?  props.type : 'text'}
 						name={props.fieldName}
 						placeholder={props.placeHolder}
-						className='input-bordered input  sm:input-group-sm  lg:input-md sm:max-w-xs md:max-w-md'
+						className={`input-bordered input input-sm input-group-sm md:input-group-md md:input-md sm:max-w-xs md:max-w-md ${props.readonly && 'disabled'} `}
 						value={props.value}
 					/>
 				</label>
 			</div>
 			<div className='form-control'>
-				<label className='label'>
-					<span className='label-text'></span>
-				</label>
+
 				<label className='input-group'>
 
 

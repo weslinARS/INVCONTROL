@@ -6,8 +6,24 @@ const SaleSchema = new Schema({
 		type: Date,
 		required: true,
 	},
-	SaleProducts: [
+	saleTotalSales: {
+		type: Number,
+		required: true,
+	},
+	saleAmountCollected : {
+		type : Number, 
+		required : true
+	},
+	saleSellerId : {
+		type : ObjectId,
+		required : true
+	},
+	saleProducts: [
 		{
+			soldProductCategory:{
+				type : String,
+				required : true
+			},
 			soldProductName: {
 				type: String,
 				required: true,
@@ -23,7 +39,7 @@ const SaleSchema = new Schema({
 			soldProductId : {
 				type : ObjectId,
 				required : true
-			}
+			},
 		},
 	],
 });

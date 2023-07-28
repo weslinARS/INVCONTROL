@@ -15,6 +15,8 @@ type Product = {
 	productStock: number;
 	productCategory: string;
 	productSupplierId: string;
+	productStockPolicy: number;
+	productIsOverPolicy: boolean;
 };
 type Category = {
 	_id: string;
@@ -46,6 +48,8 @@ const initialState: Products = {
 		productStock: 0,
 		productCategory: "",
 		productSupplierId: "",
+		productStockPolicy: 0,
+		productIsOverPolicy: false,
 	},
 	isProductToView : true,
 };

@@ -13,24 +13,38 @@ type CashRegister = {
 };
 
 export interface ICashRegister {
-	cashRegister: Array<CashRegister>;
+	cashRegister: CashRegister|undefined;
+  isCashRegisterOpen: boolean;
+  isCashRegisterClosed: boolean;
 }
 const initialState: ICashRegister = {
-  cashRegister: [],
+  cashRegister:undefined,
+  isCashRegisterOpen:false,
+  isCashRegisterClosed:false,
 };
 
 export const CashRegisterSlice = createSlice({
   name: "CashRegister",
   initialState,
   reducers: {
-    SetCashRegister: (state, action: PayloadAction<Array<CashRegister>>) => {
+    SetCashRegister: (state, action: PayloadAction<CashRegister>) => {
       state.cashRegister = action.payload;
+      state.isCashRegisterOpen = true;
+    },
+    OpenCashRegister : (state, action : PayloadAction<CashRegister>) => {
+      state.cashRegister = action.payload;
+      state.isCashRegisterOpen = true;
+    },
+    CloseCashRegister: (state, action: PayloadAction<CashRegister>) => {
+      state.cashRegister = action.payload;
+      state.isCashRegisterClosed = true;
     },
     ResetCashRegister: (state) => {
       state.cashRegister = initialState.cashRegister;
+      state.isCashRegisterOpen = initialState.isCashRegisterOpen;
     },
   }
 })
 
 export default CashRegisterSlice.reducer;
-export const { SetCashRegister, ResetCashRegister } = CashRegisterSlice.actions;
+export const { SetCashRegister, ResetCashRegister,CloseCashRegister} = CashRegisterSlice.actions;

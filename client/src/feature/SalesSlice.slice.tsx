@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISales } from "../interfaces/ISales.interface";
+import { sortObjectArray } from "../utilities/SortFunctions.utilities";
 import {
 	Add,
 	RemoveById,
@@ -16,6 +16,9 @@ type soldProduct = {
 type Sale = {
 	_id: string;
 	saleDate: string;
+	saleAmountCollected: number;
+	saleTotalSales: number;
+	saleSellerId : string;
 	saleProducts: soldProduct[];
 };
 export interface Sales {
@@ -30,13 +33,14 @@ const SalesSlice = createSlice({
 	initialState,
 	reducers: {
 		SetSales: (state, action: PayloadAction<Array<Sale>>) => {
-			state.sales = action.payload;
+			state.sales = sortObjectArray(action.payload,'saleDate','asc');
 		},
 		ResetSales: (state) => {
 			state.sales = initialState.sales;
 		},
 		AddSale: (state, action: PayloadAction<Sale>) => {
 			state.sales = Add(state.sales, action.payload);
+			state.sales = sortObjectArray(state.sales,'saleDate','asc');
 		},
 		DeleteSale: (state, action: PayloadAction<string>) => {
 			state.sales = RemoveById(state.sales, action.payload);

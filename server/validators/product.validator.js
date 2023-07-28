@@ -40,6 +40,16 @@ const productValidator = () => {
 			.withMessage("El precio del producto es requerido")
 			.isNumeric()
 			.withMessage("El precio del producto debe ser un número"),
+		body("productStockPolicy")
+			.escape()
+			.trim()
+			.not()
+			.isEmpty()
+			.withMessage("La política de stock del producto es requerida")
+			.isNumeric()
+			.withMessage("La política de stock del producto debe ser un número")
+			.isInt({min:0})
+			.withMessage(`La política de stock del producto debe ser un número positivo `)
 	];
 };
 const updateProductValidator = () => {

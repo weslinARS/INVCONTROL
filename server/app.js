@@ -9,6 +9,8 @@ import salesRoutes from "./routes/sales.routes.js";
 import userRoutes from "./routes/users.routes.js";
 import CashRegisterRoutes from "./routes/cashRegister.routes.js";
 import bodyParser from "body-parser";
+import { ValidatorErrorHandler } from "./middleware/ValidatorsErrorManager.middleware.js";
+
 let app = express();
 app.use(
 	cors({
@@ -20,6 +22,7 @@ app.use(morgan("combined"));
 app.use(express.json());
 app.use(bodyParser.json({ type: "application/*+json" }));
 app.use(express.urlencoded({ extended: false }));
+app.use(ValidatorErrorHandler)
 // ! Routes ===================================
 // restrigiendo acceso a la ruta en caso de que la url no se la correcta , en caso de que no sea la ruta a la que se desea ingresar no se permite el acceso al router y se prosigue a comprobar si la siguiente ruta es la correcta
 

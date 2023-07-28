@@ -1,3 +1,10 @@
+export const cashRegisterActionType = {
+  OpenCashRegister: "CashRegister/OpenCashRegister",
+  ResetCashRegister: "CashRegister/ResetCashRegister",
+  CloseCashRegister: "CashRegister/CloseCashRegister",
+  SetCashRegister: "CashRegister/SetCashRegister",
+};
+
 export const productaActionType = {
   SetProducts: "Products/SetProducts",
   ResetProducts: "Products/ResetProductsState",

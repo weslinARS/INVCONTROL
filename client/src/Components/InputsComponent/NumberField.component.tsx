@@ -5,6 +5,7 @@ interface IProps {
 	placeHolder: string;
 	inputIcon: JSX.Element;
 	value: number;
+	readonly?: boolean;
 }
 export function NumberField(props: IProps) {
 	return (
@@ -21,8 +22,9 @@ export function NumberField(props: IProps) {
 						type='number'
 						name={props.fieldName}
 						placeholder={props.placeHolder}
-						className='input-bordered input  sm:input-group-sm  lg:input-md sm:max-w-xs md:max-w-md'
+						className={`input-bordered input input-sm input-group-sm md:input-group-md md:input-md sm:max-w-xs md:max-w-md ${props.readonly && 'disabled'} `}
 						value={props.value}
+						readOnly={props.readonly}
 					/>
 				</label>
 			</div>

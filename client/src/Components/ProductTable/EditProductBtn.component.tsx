@@ -1,10 +1,10 @@
 import { BsFillPencilFill } from "react-icons/bs";
 import { IProduct } from "../../interfaces/IProduct.interface";
 import { useStore } from "../../Contexts/Store.context";
-export interface IProps {
+type Props = {
 	product: IProduct;
 }
-export function EditProductBtn({ product }: IProps) {
+export function EditProductBtn({ product }: Props) {
 	const { setProductToEdit ,setIsProductToEdit,isProductToEdit} = useStore();
 	return (
 		<>

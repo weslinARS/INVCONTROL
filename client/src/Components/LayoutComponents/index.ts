@@ -1,4 +1,3 @@
-import {Menu} from "./Menu.component"
-import { SideBarItems } from "./SideBarItems.component"
-
-export { Menu, SideBarItems };
+export * from './Menu.component';
+export { default as ProductLayOut } from './ProductLayOut.component';
+export * from './SideBarItems.component';

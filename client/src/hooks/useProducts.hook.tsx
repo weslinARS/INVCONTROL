@@ -42,17 +42,12 @@ export const useProduct = () => {
 		return false;
 	};
 	const AddProduct = async (product: object) => {
-		console.trace("añadiendo");
 		const productFormated = JSON.stringify(product);
-		console.log(productFormated);
 		try {
 			const response = await createProduct(
 				productFormated,
 				user.userToken
 			);
-			console.log("estatus", response.status);
-			console.trace("sks");
-			console.log(response);
 			if (response.status === 201) {
 				dispatch({
 					type: productaActionType.AddProduct,
@@ -63,7 +58,6 @@ export const useProduct = () => {
 		} catch (error: any) {
 			const response = error.response;
 			if (response.status === 400) {
-				console.log("hay errores ");
 				const errors = response.data.PropertiesErrors;
 				mySwal.fire({
 					title: "Error en los datos",
@@ -95,7 +89,6 @@ export const useProduct = () => {
 		}
 	};
 	const UpdateProduct = async (product: IProduct) => {
-		console.table(product);
 		const formattedProduct = JSON.stringify(product);
 		const response = await updateProduct(
 			product._id,
@@ -105,7 +98,7 @@ export const useProduct = () => {
 		if (response.status === 200) {
 			dispatch({
 				type: productaActionType.UpdateProduct,
-				payload: product,
+				payload: response.data,
 			});
 			toast.success("Producto actualizado!");
 		}

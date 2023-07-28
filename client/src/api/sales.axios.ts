@@ -1,5 +1,8 @@
-import axios from "axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios, { AxiosResponse } from "axios";
 //TODO: agregar la funcion para actualizar una venta
+
+
 export const getSales = async (userToken: string) =>
   await axios.get("http://localhost:3000/sales", {
     headers: {
@@ -12,9 +15,10 @@ export const getSale = async (id: string, userToken: string) =>
       Authorization: `Bearer ${userToken}`,
     },
   });
-export const createSale = async (sale: JSON, userToken: string) =>
+export const createSale = async (sale: any, userToken: string):Promise<AxiosResponse> =>
   await axios.post("http://localhost:3000/sales", sale, {
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${userToken}`,
     },
   });

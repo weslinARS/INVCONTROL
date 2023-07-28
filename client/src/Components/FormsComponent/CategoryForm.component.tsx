@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Formik, Form } from "formik";
-import { TextField } from "../InputsComponent/";
+import { Form, Formik } from "formik";
+import { toast } from "react-hot-toast";
 import { BsFillPencilFill } from "react-icons/bs";
-import { useCategories } from "../../hooks/";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import * as Yup from "yup";
-import { toast } from "react-hot-toast";
+import { useCategories } from "../../hooks/";
+import { IRawCategory } from "../../interfaces/ICategory";
+import { TextField } from "../InputsComponent/";
 interface IFormProps {
 	setIsOpenForm: any;
 }
-import { IRawCategory } from "../../interfaces/ICategory";
 
 export function CategoryForm({ setIsOpenForm }: IFormProps) {
 	const { AddCategory } = useCategories();
@@ -19,11 +19,9 @@ export function CategoryForm({ setIsOpenForm }: IFormProps) {
 		<div className='shadow-slate-500-50 prose mx-auto w-fit bg-slate-200  p-4 shadow-md'>
 			<h3 className=''>Registro de categorias </h3>
 			<Formik
-				initialValues={
-					{
-						categoryName: "",
-					}
-				}
+				initialValues={{
+					categoryName: "",
+				}}
 				onSubmit={(values: IRawCategory, action) => {
 					MySwal.fire({
 						title: "¿Desea registrar esta categoria?",

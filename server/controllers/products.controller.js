@@ -1,6 +1,10 @@
 import Product from "../models/Product.model.js";
 import { adapedtObjectArray } from "../utilities/adapter.js";
 import { validationResult } from "express-validator";
+export const verifyStockPolicy = (product) =>{
+    let {productStock, productStockPolicy} = product;
+    return productStock >= productStockPolicy ;
+}
 export const getProducts = async (request, response) => {
 	try {
 		const productsArray = await Product.find({}).select("-__v");
@@ -10,20 +14,10 @@ export const getProducts = async (request, response) => {
 	}
 };
 export const createProduct = async (request, response) => {
-	const errors = validationResult(request);
-	if (!errors.isEmpty()) {
-		const errorsArray = errors.array();
-		errorsArray.map((error) => {
-			console.log(error.msg);
-		});
-		const errorsArrayAdapted = errorsArray.map((error) => {
-			return { field: error.path, message: error.msg };
-		});
-		return response.status(400).json({PropertiesErrors : errorsArrayAdapted});
-	}
 	try {
-		const product = request.body;
-		const newProduct = new Product(product);
+		let product = request.body;
+		product.productIsOverPolicy = verifyStockPolicy(product);
+		const newProduct = new Product({...product});
 		const productSave = await newProduct.save();
 		return response.status(201).json(productSave);
 	} catch (error) {
@@ -32,14 +26,10 @@ export const createProduct = async (request, response) => {
 };
 
 export const updateProduct = async (request, response) => {
-	const error = validationResult(request);
-	if (!error.isEmpty()) {
-		return response.status(400).json({ errors: error.array() });
-	}
 	try {
 		const productUpdated = await Product.findByIdAndUpdate(
 			request.params.id,
-			request.body,
+			{...request.body, productIsOverPolicy: verifyStockPolicy(request.body)},
 			{ new: true }
 		);
 		if (!productUpdated)

@@ -1,10 +1,10 @@
-import React from "react";
-import { Field, ErrorMessage } from "formik";
+import { ErrorMessage, Field } from "formik";
 interface SelectProps {
 	ObjectArray: Array<object>;
 	ObjectIdNameKey: string;
 	label: string;
 	fieldName: string;
+	value: string;
 }
 export function SelectObjectField(props: SelectProps) {
 	return (
@@ -17,7 +17,10 @@ export function SelectObjectField(props: SelectProps) {
 					id=''
 					as='select'
 					name={props.fieldName}
-					className='select-bordered select w-full sm:select-sm md:select-md sm:max-w-xs md:max-w-md '>
+					className='select-bordered select w-full sm:select-sm md:select-md sm:max-w-xs md:max-w-md '
+					value={props.value}
+					defaultValue={""}
+					>
 					<option
 						value=''
 						disabled={true}>
@@ -37,7 +40,7 @@ export function SelectObjectField(props: SelectProps) {
 			<ErrorMessage
 				name={props.fieldName}
 				component={"span"}
-				className='font-semibold text-error text-sm'
+				className='text-sm font-semibold text-error'
 			/>
 		</div>
 	);
