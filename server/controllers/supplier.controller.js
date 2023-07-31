@@ -20,16 +20,14 @@ export const getSupplier = async (request, response) => {
 	}
 };
 export const createSupplier = async (request, response) => {
-	const errors = validationResult(request);
-	if (!errors.isEmpty())
-		return response.status(400).json({ errors: errors.array() });
 	try {
-		const { supplierName, supplierPhoneNumbers, supplierEmail } =
+		const { supplierName, supplierPhoneNumbers, supplierEmail, supplierAddress } =
 			request.body;
 		const supplier = new Supplier({
 			supplierName,
 			supplierPhoneNumbers,
 			supplierEmail,
+			supplierAddress,
 		});
 		const supplierCreated = await supplier.save();
 		return response.status(201).json(supplierCreated);
@@ -46,6 +44,23 @@ export const deleteSupplier = async (request, response) => {
 		if (!supplierDeleted)
 			return response.status(404).json({ message: "Supplier not found" });
 		return response.status(200).json({ message: "Supplier deleted" });
+	} catch (error) {
+		return response.status(500).json({ message: error.message });
+	}
+};
+
+export const updateSupplier = async (request, response) => {
+	try {
+		const updatedSupplier = await Supplier.findByIdAndUpdate(
+			request.params.id,
+			request.body,
+			{ new: true }
+		);
+		if (!updatedSupplier)
+			return response
+				.status(404)
+				.json({ message: "No se encontro al proveedor a actualizar" });
+		return response.status(200).json(updatedSupplier);
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
 	}

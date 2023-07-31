@@ -1,0 +1,24 @@
+table {
+	@apply min-w-[90%]  mx-auto text-left font-Roboto text-sm ;
+}
+thead {
+	@apply bg-indigo-500 text-white font-Roboto_condensed  border-b dark:border-neutral-500 text-base;
+}
+
+th {
+	@apply py-3 px-6;
+}
+tbody>tr{
+  @apply border-b dark:border-neutral-500
+}
+// style for even rows
+tbody>tr:nth-child(even){
+  @apply bg-indigo-100 
+}
+tbody>tr>td{
+  @apply whitespace-nowrap px-6 py-4
+}
+tbody>tr:first-child{
+  @apply whitespace-nowrap px-6 py-4 font-medium
+}
+

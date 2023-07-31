@@ -1,14 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import { LoginPage } from "./Pages/LoginPage";
 import "./index.scss";
-import { ProtectedRoutes } from "./Routes/ProtectedRoutes";
 import { DashBoard } from "./Pages/DashBoard";
 import { DHome } from "./Views/DashBoardViews/DHome";
 import { Productos } from "./Views/DashBoardViews/Products.view";
-import { Ventas } from "./Views/DashBoardViews/Ventas";
-import { Usuarios } from "./Views/DashBoardViews/Usuarios";
-import { Proveedores } from "./Views/DashBoardViews/Proveedores";
-import { Abastecimiento } from "./Views/DashBoardViews/Abastecimiento";
+import { Ventas } from "./Views/DashBoardViews/Sales.view";
+import { Users } from "./Views/DashBoardViews/Users.view";
+import { Proveedores } from "./Views/DashBoardViews/Suppliers.view";
+import { Abastecimiento } from "./Views/DashBoardViews/Orders.view";
 import { StoreProvider } from "./Contexts/Store.context";
 import { StatisticsProvider } from "./Contexts/Statistics.context";
 import AuthenticacionProvider from "./Contexts/Authenticacion.context";
@@ -46,7 +45,7 @@ function App() {
 						<Route
 							path='Productos'
 							element={
-								<PrivateRoute hasRole={roles.admin}>
+								<PrivateRoute hasRole= 'any'>
 									<Productos />
 								</PrivateRoute>
 							}
@@ -63,7 +62,7 @@ function App() {
 							path='Usuarios'
 							element={
 								<PrivateRoute hasRole={roles.admin}>
-									<Usuarios />
+									<Users />
 								</PrivateRoute>
 							}
 						/>

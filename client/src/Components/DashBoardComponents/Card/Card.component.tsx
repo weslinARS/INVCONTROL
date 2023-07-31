@@ -1,20 +1,29 @@
-import React from "react";
-
+import { BadgeDelta, Card, Metric, Title } from "@tremor/react";
 interface CardProps {
 	title: string;
 	icon: React.ReactNode;
 	value: number;
-	badgeValue: number;
+	badgeValue?: number;
 }
-export function Card(props: CardProps) {
+export default function CardComp(props: CardProps) {
 	return (
-		<div className="sm:carousel-item">
-			<div className='stat rounded-md sm:bg-emerald-400 md:bg-slate-200 shadow-md shadow-indigo-500/40'>
-				<div className='stat-figure text-primary'>{props.icon}</div>
-				<div className='stat-title'>{props.title}</div>
-				<div className='stat-value'>{props.value}</div>
-				<div className='stat-desc'>↗︎ 400 (22%)</div>
-			</div>
+		<div className=''>
+			<Card
+				className='mx-auto max-w-xs bg-tremor-background-muted'
+				decoration='top'
+				decorationColor='indigo'>
+				<div className='flex justify-between gap-2'>
+					<Title>{props.title}</Title>
+					{props?.badgeValue && (
+						<BadgeDelta
+							size='xs'
+							deltaType='increase'>
+							{props.badgeValue}
+						</BadgeDelta>
+					)}
+				</div>
+				<Metric>{props.value}</Metric>
+			</Card>
 		</div>
 	);
 }

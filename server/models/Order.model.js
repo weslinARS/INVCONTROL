@@ -1,4 +1,4 @@
-import { Double, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import { Schema, model } from "mongoose";
 
 const OrderSchema = new Schema({
@@ -8,6 +8,14 @@ const OrderSchema = new Schema({
 	},
 	orderDeliveryDate: {
 		type: Date,
+		required: true,
+	},
+	orderTotalOrderedProducts: {
+		type: Number,
+		required: true,
+	},
+	orderTotalPrice:{
+		type: Number,
 		required: true,
 	},
 	orderProducts: [
@@ -26,6 +34,10 @@ const OrderSchema = new Schema({
 			},
 			orderedProductPrice: {
 				type: Number,
+				required: true,
+			},
+			orderedProductCategory: {
+				type: String,
 				required: true,
 			},
 		},

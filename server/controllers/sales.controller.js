@@ -1,9 +1,10 @@
-import { validationResult } from "express-validator";
+import Products from "../models/Product.model.js";
 import Sales from "../models/Sale.model.js";
+import { verifyStockPolicy } from "./products.controller.js";
 
 export const getSales = async (request, response) => {
 	try {
-		const sales = await Sales.find();
+		const sales = await Sales.find().select("-__v");
 		response.status(200).json(sales);
 	} catch (error) {
 		response.status(404).json({ message: error.message });
@@ -21,24 +22,80 @@ export const getSale = async (request, response) => {
 };
 
 export const createSale = async (request, response) => {
-	const errors = validationResult(request);
-	if (!errors.isEmpty())
-		return response.status(422).json({ errors: errors.array() });
 	try {
-		const { saleDate, SaleProducts } = request.body;
-		const newSale = new Sales({ saleDate, SaleProducts });
-		const saleCreated = await newSale.save();
-		return response.status(201).json(saleCreated);
+		const { saleDate, saleProducts } = request.body;
+		const { userId } = request.headers;
+		let aSaleProducts = [];
+		let productsUpdated = [];
+		let saleAmountCollected = 0;
+		let saleTotalSales = 0;
+		for (const saleProduct of saleProducts) {
+			const productFound = await Products.findById(
+				saleProduct.soldProductId
+			);
+			if (!productFound) {
+				return response
+					.status(404)
+					.json({ message: "Producto no encontrado" });
+			}
+			if (productFound.productStock < saleProduct.soldProductQuantity)
+				return response
+					.status(404)
+					.json({ message: "No hay suficiente producto" });
+			productFound.productStock -= Number(
+				saleProduct.soldProductQuantity
+			);
+			productFound.productIsOverPolicy = verifyStockPolicy(productFound);
+			const productUpdatedRaw = (await productFound.save()).toObject();
+			delete productUpdatedRaw.__v;
+			productsUpdated.push(productUpdatedRaw);
+			saleAmountCollected += Number(
+				saleProduct.soldProductAmountCollected
+			);
+			saleTotalSales += Number(saleProduct.soldProductQuantity);
+			// Agregamos cada producto de venta modificado al array aSaleProducts
+			aSaleProducts.push({
+				...saleProduct,
+				soldProductName: productFound.productName,
+			});
+		}
+		const newSale = new Sales({
+			saleDate,
+			saleAmountCollected,
+			saleTotalSales,
+			saleSellerId: userId,
+			saleProducts: aSaleProducts,
+		});
+		const saleCreated = (await newSale.save()).toObject();
+		delete saleCreated.__v;
+		return response
+			.status(201)
+			.json({ sale: saleCreated, productUpdated: productsUpdated });
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
 	}
 };
 export const deleteSale = async (request, response) => {
 	try {
-		const saleFound = await Sales.findByIdAndDelete(request.params.id);
+		let productsUpdated = [];
+		const saleId = request.params.id;
+		const saleFound = await Sales.findById(saleId);
 		if (!saleFound)
 			return response.status(404).json({ message: "Sale not found" });
-		return response.status(200).json({ message: "Sale deleted" });
+		await Sales.findByIdAndDelete(saleId);
+		const { saleProducts } = saleFound;
+		for (const sale of saleProducts) {
+			const productFound = await Products.findById(sale.soldProductId);
+			productFound.productStock += Number(sale.soldProductQuantity);
+			productFound.productIsOverPolicy = verifyStockPolicy(productFound);
+			const productUpdatedRaw = (await productFound.save()).toObject();
+			delete productUpdatedRaw.__v;
+			productsUpdated.push(productUpdatedRaw);
+		}
+		console.log(productsUpdated);
+		return response
+		.status(200)
+		.json({ productUpdated: productsUpdated });
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
 	}

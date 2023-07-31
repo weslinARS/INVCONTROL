@@ -1,10 +1,17 @@
+import { ReactNode } from "react";
 
-export function ButtonFormTrigger({triggerFunction}: {triggerFunction: any}) {
+interface ButtonFormTriggerProps {
+    triggerFunction: any;
+    buttonText: string;
+    buttonIcon : ReactNode
+}
+export function ButtonFormTrigger({triggerFunction,buttonText,buttonIcon}: ButtonFormTriggerProps) {
     return (
-        <>
+        <div className=" w-fit">
             <button className="btn btn-primary btn-sm" onClick={triggerFunction}>
-                Insertar Producto
+                {buttonIcon}&nbsp;
+                {buttonText}
             </button>
-        </>
+        </div>
   )
 }

@@ -11,14 +11,26 @@ import {
 	updateProductValidator,
 } from "../validators/product.validator.js";
 import { requireAuthentication } from "../middleware/requireAuthentication.middleware.js";
+import { body } from "express-validator";
+import { ValidatorErrorHandler } from "../middleware/ValidatorsErrorManager.middleware.js";
 const router = Router();
-//! MIDDLEWARE =======================================
-router.use(requireAuthentication);
 //! ROUTES =======================================
-router.get("/products", getProducts);
-router.get("/products/:id", getProduct);
-router.post("/products", productValidator(), createProduct);
-router.put("/products/:id", updateProductValidator(), updateProduct);
-router.delete("/products/:id", deleteProduct);
+router.get("/products", requireAuthentication, getProducts);
+router.get("/products/:id", requireAuthentication, getProduct);
+router.post(
+	"/products",
+	requireAuthentication,
+	productValidator(),
+	ValidatorErrorHandler,
+	createProduct
+);
+router.put(
+	"/products/:id",
+	requireAuthentication,
+	updateProductValidator(),
+	ValidatorErrorHandler,
+	updateProduct
+);
+router.delete("/products/:id", requireAuthentication, deleteProduct);
 
 export default router;

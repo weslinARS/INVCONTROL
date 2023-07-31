@@ -28,6 +28,14 @@ const ProductSchema = new Schema({
     type : String,
     required : true,
   },
+  productStockPolicy:{
+    type : Number,
+    required : true,
+  },
+  productIsOverPolicy:{
+    type : Boolean,
+    required : true,
+  },
 })
 
 export default model("Product", ProductSchema);

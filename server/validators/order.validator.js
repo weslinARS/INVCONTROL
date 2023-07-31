@@ -40,5 +40,12 @@ export const createOrderValidator = () => {
 			.withMessage("precio de producto es requerido")
 			.isNumeric()
 			.withMessage("debe ser un numero"),
+		body("orderProducts.*.orderedProductCategory")
+			.escape()
+			.trim()
+			.notEmpty()
+			.withMessage("categoria de producto es requerido")
+			.isString()
+			.withMessage("debe ser un string"),
 	];
 };

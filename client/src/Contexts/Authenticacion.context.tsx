@@ -11,6 +11,8 @@ import {
 } from "react";
 import { useDispatch } from "react-redux";
 import {
+	UsersActionType,
+	cashRegisterActionType,
 	categoryActionType,
 	orderActionType,
 	productaActionType,
@@ -19,16 +21,9 @@ import {
 	userActionType,
 } from "../utilities/reduxActions";
 import { useNavigate } from "react-router-dom";
-import { Register, Login } from "../api/users.axios";
+import {  Login } from "../Api/users.axios";
 const authcontext = createContext({} as any);
 
-interface IUserinfo {
-	userEmail: string;
-	userName: string;
-	userLastName: string;
-	userPassword: string;
-	userRole: string;
-}
 export const useAuthenticacion = () => {
 	const context = useContext(authcontext);
 	if (!context) return console.log("there's not an auth provider");
@@ -40,7 +35,6 @@ export default function AuthenticacionProvider({
 	children: ReactNode;
 }) {
 	//* STATE ===================================
-	console.log("desde el nuevo provider auth");
 	const [error, setError] = useState<null | string>(null);
 	const [loading, setLoading] = useState<null | boolean>(null);
 	//* HOOKS ===================================
@@ -87,22 +81,11 @@ export default function AuthenticacionProvider({
 		dispatch({ type: categoryActionType.ResetCategories });
 		dispatch({ type: supplierActionType.ResetSuppliers });
 		dispatch({ type: orderActionType.ResetOrders });
-	};
-	//* SIGNUP FUNCTION ===================================
-	const SignUp = async (userData: IUserinfo) => {
-		const jsonData = JSON.stringify(userData);
-		setLoading(true);
-		setError(null);
-		const response = await Register(jsonData);
-		if (response.status !== 200) {
-			setLoading(false);
-			setError(response.data.message);
-		} else if (response.status === 200) {
-			setLoading(false);
-		}
+		dispatch({type:cashRegisterActionType.ResetCashRegister})
+		dispatch({type:UsersActionType.ResetUsers})
 	};
 	return (
-		<authcontext.Provider value={{ LogIn, LogOut, SignUp, error, loading }}>
+		<authcontext.Provider value={{ LogIn, LogOut, error, loading }}>
 			{children}
 		</authcontext.Provider>
 	);

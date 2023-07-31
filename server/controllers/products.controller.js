@@ -1,22 +1,23 @@
 import Product from "../models/Product.model.js";
+import { adapedtObjectArray } from "../utilities/adapter.js";
 import { validationResult } from "express-validator";
+export const verifyStockPolicy = (product) =>{
+    let {productStock, productStockPolicy} = product;
+    return productStock >= productStockPolicy ;
+}
 export const getProducts = async (request, response) => {
 	try {
-		const productsArray = await Product.find();
-		response.status(200).json(productsArray);
+		const productsArray = await Product.find({}).select("-__v");
+		return response.status(200).json(productsArray);
 	} catch (error) {
-		console.error(error.message);
 		return response.status(500).json({ message: error.message });
 	}
 };
 export const createProduct = async (request, response) => {
-	const errors = validationResult(request);
-	if (!errors.isEmpty()) {
-		return response.status(400).json({ errors: errors.array() });
-	}
 	try {
-		const product = request.body;
-		const newProduct = new Product(product);
+		let product = request.body;
+		product.productIsOverPolicy = verifyStockPolicy(product);
+		const newProduct = new Product({...product});
 		const productSave = await newProduct.save();
 		return response.status(201).json(productSave);
 	} catch (error) {
@@ -25,16 +26,16 @@ export const createProduct = async (request, response) => {
 };
 
 export const updateProduct = async (request, response) => {
-	const error = validationResult(request);
-	if (!error.isEmpty()) {
-		return response.status(400).json({ errors: error.array() });
-	}
 	try {
 		const productUpdated = await Product.findByIdAndUpdate(
 			request.params.id,
-			request.body,
+			{...request.body, productIsOverPolicy: verifyStockPolicy(request.body)},
 			{ new: true }
 		);
+		if (!productUpdated)
+			return response
+				.status(404)
+				.json({ message: "No se encontro el producto a actualizar" });
 		return response.status(200).json(productUpdated);
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
@@ -46,6 +47,10 @@ export const deleteProduct = async (request, response) => {
 		const productDeleted = await Product.findByIdAndDelete(
 			request.params.id
 		);
+		if (!productDeleted)
+			return response
+				.status(404)
+				.json({ message: "producto no encontrado" });
 		return response.status(200).json(productDeleted);
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
@@ -53,7 +58,7 @@ export const deleteProduct = async (request, response) => {
 };
 export const getProduct = async (request, response) => {
 	try {
-		const productFound = await Product.findById(request.params.id);
+		const productFound = await Product.findById(request.params.id, { __v });
 		if (!productFound)
 			return response.status(404).json({ message: "Product not found" });
 		return response.status(200).json(productFound);

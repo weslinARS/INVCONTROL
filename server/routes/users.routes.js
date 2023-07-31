@@ -1,19 +1,28 @@
 import { Router } from "express";
-import { LoginUser, SignUpUser } from "../controllers/user.controller.js";
+import {
+	LoginUser,
+	SignUpUser,
+	getAllUsers,
+	deleteUser,
+	updateUser
+} from "../controllers/user.controller.js";
 import {
 	loginValidation,
-	signUpValidation,
+	UserDataValidation,
 } from "../validators/user.validator.js";
 import { requireAuthentication } from "../middleware/requireAuthentication.middleware.js";
+import { requireAdminRole } from "../middleware/requireAdminRole.middleware.js";
+import {ValidatorErrorHandler} from '../middleware/ValidatorsErrorManager.middleware.js'
 const router = Router();
 
 // ! Login user
-
 router.post("/login", loginValidation(), LoginUser);
-
 //! MIDDLEWARE =======================================
 router.use(requireAuthentication);
+// ! get all users
+router.get("/users",requireAdminRole, getAllUsers);
 // ! Register user
-router.post("/signup", signUpValidation(), SignUpUser);
-
+router.post("/signup",requireAdminRole, UserDataValidation(),ValidatorErrorHandler, SignUpUser);
+router.delete("/user/:id",requireAdminRole, deleteUser);
+router.put("/user/:id",requireAdminRole, updateUser);
 export default router;

@@ -14,7 +14,7 @@ export const getCategory = async (id: string, userToken: string) =>
       Authorization: `Bearer ${userToken}`,
     },
   });
-export const createCategory = async (category: JSON, userToken: string) =>
+export const createCategory = async (category: any, userToken: string) =>
   await axios.post("http://localhost:3000/category", category, {
     headers: {
       Authorization: `Bearer ${userToken}`,

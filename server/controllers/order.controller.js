@@ -11,19 +11,22 @@ export const getOrders = async (request, response) => {
 };
 
 export const createOrder = async (request, response) => {
-	let error = validationResult(request);
-	if (!error.isEmpty()) {
-		return response.status(400).json({ error: error.array() });
-	}
 	try {
 		const { orderDate, orderDeliveryDate, orderProducts } = request.body;
+		let orderTotalOrderedProducts = orderProducts.length;
+		let orderTotalPrice = 0;
+		orderProducts.forEach((product) => {
+			orderTotalPrice += Number(product.orderedProductPrice) * Number(product.orderedProductQuantity);
+		});
 		const newOrder = new Order({
 			orderDate,
 			orderDeliveryDate,
+			orderTotalOrderedProducts,
+			orderTotalPrice,
 			orderProducts,
 		});
 		const orderSaved = await newOrder.save();
-		response.status(200).json(orderSaved);
+		response.status(201).json(orderSaved);
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
 	}
@@ -48,3 +51,28 @@ export const getOrder = async (request, response) => {
 		return response.status(500).json({ message: error.message });
 	}
 };
+
+export const updateOrder = async (request, response) => {
+	try {
+		const { orderDate, orderDeliveryDate, orderProducts } = request.body;
+		let orderTotalOrderedProducts = orderProducts.length;
+		let orderTotalPrice = 0;
+		orderProducts.forEach((product) => {
+			orderTotalPrice += Number(product.orderedProductPrice) * Number(product.orderedProductQuantity);
+		});
+		const orderUpdated = await Order.findByIdAndUpdate(
+			request.params.id,
+			{
+				orderDate,
+				orderDeliveryDate,
+				orderTotalOrderedProducts,
+				orderTotalPrice,
+				orderProducts,
+			},
+			{ new: true }
+		);
+		return response.status(200).json(orderUpdated);
+	} catch (error) {
+		return response.status(500).json({ message: error.message });
+	}
+}

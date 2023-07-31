@@ -1,37 +1,53 @@
-import React from "react";
-import { Field, ErrorMessage, useFormikContext } from "formik";
+import { Field, ErrorMessage } from "formik";
 
 interface ISelectProps {
 	List: Array<object>;
 	fieldName: string;
 	Label: string;
 	LabelOption: string;
+	size?: string;
+	readonly?: boolean;
+	value: string;
 }
-export function BasicSelectField(props: ISelectProps) {
+
+
+export function BasicSelectField({fieldName, Label,LabelOption,List, value,readonly}: ISelectProps) {
 	return (
 		<div className='form-control'>
-			<label htmlFor={`${props.fieldName}`}>{props.Label}</label>
-			<Field
-				name={props.fieldName}
-				as='select'
-				className='select-bordered select sm:select-sm md:select-md w-full sm:max-w-xs md:max-w-md'>
-				<option
-					value=''
-					disabled={true}>
-					{props.Label}
-				</option>
-				{props.List?.map((option) => (
+			<div className='form-control w-full max-w-xs'>
+				<label className='label'>
+					<label
+						className='label-text'
+						htmlFor={`${fieldName}`}>
+						{Label}
+					</label>
+				</label>
+				<Field
+					name={fieldName}
+					as='select'
+					className={`select-bordered select w-full sm:select-sm md:select-md sm:max-w-xs md:max-w-md ${readonly && 'disabled'}`}
+					value= {value}
+					defaultValue={""}
+					>
 					<option
-						key={option["_id" as keyof object]}
-						value={option[props.LabelOption as keyof object]}>
-						{option[props.LabelOption as keyof object]}
+						value=''
+						disabled={true}>
+						{Label}
 					</option>
-				))}
-			</Field>
-      <ErrorMessage
-									name={props.fieldName}
-									component={"p"}
-									className='font-semibold text-error'/>
+					{List?.map((option) => (
+						<option
+							key={option["_id" as keyof object]}
+							value={option[LabelOption as keyof object]}>
+							{option[LabelOption as keyof object]}
+						</option>
+					))}
+				</Field>
+			</div>
+			<ErrorMessage
+				name={fieldName}
+				component={"p"}
+				className='font-semibold text-error text-sm'
+			/>
 		</div>
 	);
 }

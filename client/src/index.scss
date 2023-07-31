@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 h1,
 h2,
 h3,
@@ -45,4 +44,7 @@ button {
 }
 .normal:hover{
   @apply flex w-full flex-row gap-4 bg-base-100 p-4 font-Roboto_condensed text-lg font-bold text-primary ease-in duration-200;
+}
+.dropDownItem{
+	@apply w-full flex flex-row justify-start gap-x-2 items-center p-2 rounded-md  hover:text-indigo-500;
 }

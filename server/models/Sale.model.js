@@ -1,4 +1,4 @@
-import { Double, Int32 } from "mongodb";
+import { Double, Int32, ObjectId } from "mongodb";
 import { Schema, model } from "mongoose";
 
 const SaleSchema = new Schema({
@@ -6,8 +6,24 @@ const SaleSchema = new Schema({
 		type: Date,
 		required: true,
 	},
-	SaleProducts: [
+	saleTotalSales: {
+		type: Number,
+		required: true,
+	},
+	saleAmountCollected : {
+		type : Number, 
+		required : true
+	},
+	saleSellerId : {
+		type : ObjectId,
+		required : true
+	},
+	saleProducts: [
 		{
+			soldProductCategory:{
+				type : String,
+				required : true
+			},
 			soldProductName: {
 				type: String,
 				required: true,
@@ -19,6 +35,10 @@ const SaleSchema = new Schema({
 			soldProductAmountCollected: {
 				type: Number,
 				required: true,
+			},
+			soldProductId : {
+				type : ObjectId,
+				required : true
 			},
 		},
 	],
