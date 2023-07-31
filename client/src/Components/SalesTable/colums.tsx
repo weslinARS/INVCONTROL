@@ -34,7 +34,7 @@ export const columns = [
 	columHelper.accessor("saleDate", {
 		header: "Fecha de venta",
 		cell: ({ row }) => {
-      const date = dayjs(row.original.saleDate).date()+1+'-'+(dayjs(row.original.saleDate).month()+1)+'-'+dayjs(row.original.saleDate).year();
+      const date = dayjs(row.original.saleDate).format('DD/MM/YYYY');
 			return (
 				<span>
 					{date} 

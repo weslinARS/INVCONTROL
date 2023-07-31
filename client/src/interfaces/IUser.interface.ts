@@ -6,3 +6,11 @@ export interface IUser{
     userEmail : string,
     isSetUser : null | boolean,
 }
+export interface IUserInfo{
+    userName : string,
+    userLastName: string,
+    userRole : string,
+    userEmail : string,
+    userId : string,
+    _id : string,
+}

@@ -1,22 +1,22 @@
 import { validationResult } from "express-validator";
-import User from "../models/userCredentials.model.js";
-import UserInfo from "../models/userInfo.model.js";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../config.js";
+import User from "../models/userCredentials.model.js";
+import UserInfo from "../models/userInfo.model.js";
 /**
  * funcion para crear un token para el usuario
  * @param {string} __id - id del usuario
- * @param {string} userRole 
+ * @param {string} userRole
  * @returns  {string} - token
  */
-const createToken = (__id, userRole) => {
-	return jwt.sign({ __id, userRole }, SECRET_KEY, { expiresIn: "3d" });
+const createToken = (_id, userRole) => {
+	return jwt.sign({ _id, userRole }, SECRET_KEY, { expiresIn: "3d" });
 };
 /**
  * funcion para verificar si el usuario existe en la base de datos y si la contraseña es correcta
  * @param {*} request - contiene el email y la contraseña del usuario
  * @param {*} response - contiene el token del usuario y la informacion del usuario
- * @returns status 200 - si el usuario existe y la contraseña es correcta 
+ * @returns status 200 - si el usuario existe y la contraseña es correcta
  * @returns status 404 - si el usuario no existe
  * @returns status 500 - si hubo un error en el servidor
  * @returns status 400 - si hubo un error en la validacion de los datos
@@ -44,7 +44,10 @@ export const LoginUser = async (request, response) => {
 				userRole,
 				userToken: token,
 			});
-		} else return response.status(404).json({ message: "Usuario no encontrado" });
+		} else
+			return response
+				.status(404)
+				.json({ message: "Usuario no encontrado" });
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
 	}
@@ -52,18 +55,14 @@ export const LoginUser = async (request, response) => {
 
 /**
  * funcion para crear un usuario en la base de datos en la coleccion de credenciales de usuario y en la coleccion de informacion de usuario
- * @param {*} request 
- * @param {*} response 
+ * @param {*} request
+ * @param {*} response
  * @returns  {object} - informacion del uusario creado
  * @return status 201 - si se creo correctamente
  * @return status 500 - si hubo un error en el servidor
  * @return status 400 - si hubo un error en la validacion de los datos
  */
 export const SignUpUser = async (request, response) => {
-	const errors = validationResult(request);
-	if (!errors.isEmpty()) {
-		return response.status(400).json({ errors: errors.array() });
-	}
 	try {
 		const { userName, userLastName, userRole, userPassword, userEmail } =
 			request.body;
@@ -85,7 +84,7 @@ export const SignUpUser = async (request, response) => {
 					userLastName,
 					userRole,
 					userEmail,
-					token,
+					userId: user._id,
 				});
 			}
 		);
@@ -95,7 +94,7 @@ export const SignUpUser = async (request, response) => {
 };
 /**
  * funcion para obtener la informacion de todos los usuarios
- * @param {*} request 
+ * @param {*} request
  * @param {*} response  - respuesta del servidor
  * @returns  - 200 si se obtuvo la informacion correctamente
  * @returns - 500 si hubo un error en el servidor
@@ -114,7 +113,7 @@ export const getAllUsers = async (request, response) => {
 	}
 };
 /**
- * funcion para eliminar un usuario 
+ * funcion para eliminar un usuario
  * @param {*} request - contiene el id del usuario a eliminar
  * @param {*} response - respuesta del servidor
  * @returns - 204 si se elimino correctamente
@@ -149,21 +148,44 @@ export const deleteUser = async (request, response) => {
  * @returns - 404 si no se encontro el usuario
  */
 export const updateUser = async (request, response) => {
+	console.trace(request.params.id,'entro');
 	if (!(await User.findById(request.params.id)))
 		return response.status(404).json({
 			message: "No se encontro informacion del usuario el usuario",
 		});
+	console.trace(request.params.id,'entra al try');
 	try {
+		console.log(request.headers);
+		const userIdFromToken = request.headers["userId"];
+		console.debug('from token ',userIdFromToken);
+		console.debug('from params ',request.params.id);
+		const { userEmail, userName, userLastName, userPassword, userRole } =
+			request.body;
+		const userId = request.params.id;
+		const updatedUserEmail = await User.UpdateUser(
+			userId,
+			userEmail,
+			userPassword
+		);
 		const updatedUser = await UserInfo.findOneAndUpdate(
 			{ userId: request.params.id },
-			request.body,
+			{
+				userName,
+				userLastName,
+				userRole,
+				userEmail,
+				userId,
+			},
 			{ new: true }
 		);
 		if (!updatedUser)
 			return response.status(404).json({
 				message: "No se encontro informacion del usuario el usuario",
 			});
-		return response.status(200).json(updatedUser);
+		const updatedToken = createToken(updatedUser.userId, updatedUser.userRole);
+		return response
+			.status(200)
+			.json({ updatedUser: updatedUser, updatedToken: userId == userIdFromToken ? updatedToken : undefined, userIdFromToken });
 	} catch (error) {
 		return response.status(500).json({ message: error.message });
 	}

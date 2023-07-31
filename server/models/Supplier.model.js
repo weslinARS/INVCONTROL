@@ -18,6 +18,10 @@ const SupplierSchema = new Schema({
 			required: true,
 		},
 	],
+	supplierAddress: {
+		type: String,
+		required: true,
+	},
 });
 
 export default model("Supplier", SupplierSchema);

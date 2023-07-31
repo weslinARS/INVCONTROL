@@ -38,7 +38,7 @@ export function TextField(props: ITextInputProps) {
 			<ErrorMessage
 				name={props.fieldName}
 				component={"span"}
-				className='font-semibold text-error text-sm'
+				className='font-semibold text-error text-sm w-[250px] text-justify'
 			/>
 		</div>
 	);

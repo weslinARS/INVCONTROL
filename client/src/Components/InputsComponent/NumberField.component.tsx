@@ -4,7 +4,7 @@ interface IProps {
 	label: string;
 	placeHolder: string;
 	inputIcon: JSX.Element;
-	value: number;
+	value: string | number;
 	readonly?: boolean;
 }
 export function NumberField(props: IProps) {

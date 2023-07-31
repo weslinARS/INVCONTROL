@@ -33,12 +33,10 @@ export const useSales = () => {
 	const AddSales = async (sale: object) => {
     const mySwal = withReactContent(Swal);
 		const saleFormated = JSON.stringify(sale);
-		console.log(saleFormated);
 		if (user.isSetUser !== null) {
 			try {
         toast.loading("Agregando venta");
 				const response = await createSale(saleFormated, user.userToken);
-				console.log(response);
 				if (response.status === 201) {
 					const { sale, productUpdated } = response.data;
           dispatch({
@@ -53,8 +51,6 @@ export const useSales = () => {
               }
             )
           }
-          console.log(sale);
-          console.log(productUpdated);
           toast.dismiss();
 					toast.success("Venta agregada correctamente");
 				}

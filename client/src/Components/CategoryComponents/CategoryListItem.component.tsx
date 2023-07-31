@@ -9,23 +9,28 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../../src/components/ui/dropdown-menu";
-import {categoryActionType} from '../../utilities/reduxActions'
+import { categoryActionType } from "../../utilities/reduxActions";
 import { useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
+import { useStore } from "../../Contexts/Store.context";
 interface CategoryListItemProps {
 	category: any;
 }
 export function CategoryListItem({ category }: CategoryListItemProps) {
+	console.log(category);
 	const { DeleteCategory } = useCategories();
 	const MySwal = withReactContent(Swal);
 	const dispatch = useDispatch();
+	const {
+		isCategoryToEdit,
+		setIsCategoryToEdit,
+		categoryToEdit,
+		setCategoryToEdit,
+	} = useStore();
 	const handleEdit = () => {
-		alert("editando");
-		dispatch({
-			type: categoryActionType.SetEditCategory,
-			payload: category,
-		})
-	}
+		setIsCategoryToEdit(!isCategoryToEdit);
+		setCategoryToEdit(category);
+	};
 	const handleDelete = () => {
 		MySwal.fire({
 			title: "¿Desea eliminar esta categoria?",
@@ -56,14 +61,16 @@ export function CategoryListItem({ category }: CategoryListItemProps) {
 				<DropdownMenuLabel>{category.categoryName}</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
-					<span className='w-full px-2 py-1 transition-colors hover:text-primary hover:bg-indigo-100 rounded-md hover:cursor-pointer' onClick={()=>handleEdit()}>
+					<span
+						className='dropDownItem hover:cursor-pointer'
+						onClick={() => handleEdit()}>
 						Editar
 					</span>
 					{/*<EditProductBtn product={product} />*/}
 				</DropdownMenuItem>
 				<DropdownMenuItem>
 					<span
-						className='w-full px-2 py-1 transition-colors hover:text-primary hover:bg-indigo-100 rounded-md hover:cursor-pointer'
+						className='dropDownItem hover:cursor-pointer'
 						onClick={() => handleDelete()}>
 						Eliminar
 					</span>

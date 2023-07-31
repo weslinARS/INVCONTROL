@@ -1,6 +1,5 @@
 import { Button, Card, Text } from "@tremor/react";
 import { useMemo, useState } from "react";
-import { Toaster } from "react-hot-toast";
 import { BsFillCartFill } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -84,7 +83,6 @@ export function Ventas() {
 					</div>
 				</Card>
 			</main>
-			<Toaster />
 		</div>
 	);
 }

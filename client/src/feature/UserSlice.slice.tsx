@@ -14,15 +14,13 @@ export const UserSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		SetUserInfo: (state, action: PayloadAction<IUser>) => {
-			console.log("el payload es : " + action.payload);
 			state.userName = action.payload.userName;
 			state.userLastName = action.payload.userLastName;
 			state.userToken = action.payload.userToken;
 			state.userRole = action.payload.userRole;
 			state.isSetUser = action.payload.isSetUser;
 			state.userEmail = action.payload.userEmail;
-			console.log("nuevo estado es");
-			console.log(state.userRole);
+
 		},
 		ResetUserInfo: (state) => {
       state.userName = "";

@@ -36,7 +36,7 @@ const SuppliersSlice = createSlice({
 		DeleteSupplier: (state, action: PayloadAction<string>) => {
 			state.suppliers = RemoveById(state.suppliers, action.payload);
 		},
-		UpdateSuppliers: (state, action: PayloadAction<Supplier>) => {
+		UpdateSupplier: (state, action: PayloadAction<Supplier>) => {
 			state.suppliers = UpdateArray(state.suppliers, action.payload);
 		},
 	},
@@ -48,5 +48,5 @@ export const {
 	ResetSuppliers,
 	AddSupplier,
 	DeleteSupplier,
-	UpdateSuppliers,
+	UpdateSupplier,
 } = SuppliersSlice.actions;

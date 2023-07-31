@@ -62,7 +62,7 @@ export function Login() {
 						/>
 						<button
 							type='submit'
-							className='btn-primary btn-block btn'>
+							className='btn-primary btn-block btn my-4'>
 							Iniciar Sesion
 						</button>
 					</Form>

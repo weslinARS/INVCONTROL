@@ -28,6 +28,18 @@ export function SaleForm({ ButtonCloseForm }: SaleFormProps) {
 	);
 	const CategoriesMemo = useMemo(() => CategoryList, [CategoryList]);
 	const ProductsMemo = useMemo(() => ProductList, [ProductList]);
+	const initialValues = {
+								saleDate: '',
+								saleProducts: [
+									{
+										soldProductName: "",
+										soldProductQuantity:'',
+										soldProductAmountCollected: '0',
+										soldProductId: "",
+										soldProductCategory: "",
+									},
+								],
+						}
 	return (
 		<div className='prose mx-auto flex w-fit flex-col rounded-md bg-slate-200 px-4 py-4 shadow-md shadow-slate-500/50 '>
 			<h2>Registro de ventas</h2>
@@ -39,18 +51,7 @@ export function SaleForm({ ButtonCloseForm }: SaleFormProps) {
 								saleDate: dayjs(new Date).format("YYYY-MM-DD"),
 								saleProducts: saleToEdit.saleProducts,
 						}
-						: {
-								saleDate: new Date(),
-								saleProducts: [
-									{
-										soldProductName: "",
-										soldProductQuantity: 0,
-										soldProductAmountCollected: 0,
-										soldProductId: "",
-										soldProductCategory: "",
-									},
-								],
-						}
+						: initialValues
 				}
 				onReset={(values, actions) => {
 					actions.resetForm();
@@ -65,7 +66,8 @@ export function SaleForm({ ButtonCloseForm }: SaleFormProps) {
 						cancelButtonText: "No, cancelar",
 					}).then(async (result) => {
 						if (result.isConfirmed) {
-							AddSales(values);
+							const saleDate = dayjs(values.saleDate).toDate().toISOString();
+							AddSales({...values, saleDate});
 						}
 					});
 				}}>

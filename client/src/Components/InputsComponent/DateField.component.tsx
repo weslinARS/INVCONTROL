@@ -3,7 +3,7 @@ import {BsFillCalendarWeekFill} from 'react-icons/bs';
 interface DateFieldProps {
 	label: string;
 	fieldName: string;
-  value: Date;
+  value: string;
 	readonly?: boolean;
 }
 export function DateField({label,fieldName,value,readonly} : DateFieldProps) {

@@ -11,13 +11,11 @@ export const requireAuthentication = async (request, response, next) => {
 	}
 	// getting the token from the header without the bearer
 	const token = authorization.split(" ")[1];
-	console.debug(token);
 	try {
-		const { __id, userRole } = jwt.verify(token, SECRET_KEY);
-		await User.findById(__id).select("_id");
+		const { _id, userRole } = jwt.verify(token, SECRET_KEY);
+		await User.findById(_id).select("_id");
 		request.headers["userRole"] = userRole;
-		request.headers["userId"] = __id;
-		console.trace("userRole: ", userRole);
+		request.headers["userId"] = _id;
 		next();
 	} catch (error) {
 		return response.status(401).json({ message: "token invalido" });

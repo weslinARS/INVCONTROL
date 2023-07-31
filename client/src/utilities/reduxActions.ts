@@ -37,10 +37,20 @@ export const supplierActionType = {
   ResetSuppliers: "Suppliers/ResetSuppliers",
   AddSupplier: "Suppliers/AddSupplier",
   DeleteSupplier: "Suppliers/DeleteSupplier",
+  UpdateSupplier: "Suppliers/UpdateSupplier",
 };
 export const orderActionType = {
   SetOrders: "Orders/SetOrders",
   ResetOrders: "Orders/ResetOrders",
   AddOrder: "Orders/AddOrder",
   DeleteOrder: "Orders/DeleteOrder",
+  UpdateOrder: "Orders/UpdateOrder",
 }
+
+export const UsersActionType = {
+  SetUsers: "Users/SetUsers",
+  ResetUsers: "Users/ResetUsers",
+  AddUser: "Users/AddUser",
+  DeleteUser: "Users/DeleteUser",
+  UpdateUser: "Users/UpdateUser",
+};

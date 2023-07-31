@@ -5,9 +5,9 @@ import { DashBoard } from "./Pages/DashBoard";
 import { DHome } from "./Views/DashBoardViews/DHome";
 import { Productos } from "./Views/DashBoardViews/Products.view";
 import { Ventas } from "./Views/DashBoardViews/Sales.view";
-import { Usuarios } from "./Views/DashBoardViews/Usuarios";
-import { Proveedores } from "./Views/DashBoardViews/Proveedores";
-import { Abastecimiento } from "./Views/DashBoardViews/Abastecimiento";
+import { Users } from "./Views/DashBoardViews/Users.view";
+import { Proveedores } from "./Views/DashBoardViews/Suppliers.view";
+import { Abastecimiento } from "./Views/DashBoardViews/Orders.view";
 import { StoreProvider } from "./Contexts/Store.context";
 import { StatisticsProvider } from "./Contexts/Statistics.context";
 import AuthenticacionProvider from "./Contexts/Authenticacion.context";
@@ -62,7 +62,7 @@ function App() {
 							path='Usuarios'
 							element={
 								<PrivateRoute hasRole={roles.admin}>
-									<Usuarios />
+									<Users />
 								</PrivateRoute>
 							}
 						/>

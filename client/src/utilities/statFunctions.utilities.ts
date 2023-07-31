@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import _ from "lodash";
 import { object } from "yup";
+import { sortObjectArray } from "./SortFunctions.utilities";
 
 /**
  * funcion que calcula el promedio de un arreglo de elementos que tienen dos niveles de profundidad
@@ -51,8 +52,10 @@ export function getAverage1level(array: any[], levelKey: string): number {
  */
 export function getFrequency1level(array: any[], levelKey: string): any {
 	const frequency: any = [];
+	let sum = 0;
 	_.forEach(array, (item) => {
 		const propertyValue = item[levelKey];
+		sum++;
 		if (
 			frequency.findIndex((item) => item["name"] == propertyValue) == -1
 		) {
@@ -68,6 +71,10 @@ export function getFrequency1level(array: any[], levelKey: string): any {
 			);
 			frequency[index].counter++;
 		}
+	});
+	// adding percentage to each frequency item
+	_.forEach(frequency, (item) => {
+		item["percentage"] = ((item["counter"] * 100) / sum).toFixed(1);
 	});
 	return frequency;
 }
@@ -88,10 +95,8 @@ export function getFrequency2level(
 		_.forEach(Array.from(item[level1Key]), (item2) => {
 			console.table(item2);
 			const propertyValue = item2[level2Key];
-			console.log("propertyValue: ", propertyValue);
 			frequency[propertyValue] = (frequency[propertyValue] || 0) + 1;
 		});
-		console.log("frequency: ", frequency);
 	});
 
 	return frequency;
@@ -191,14 +196,14 @@ export function getFreqBoolean1Level(
 	propertyKey: string,
 	propertyValue: boolean,
 	tag: string
-): any[]{
+): any[] {
 	const frequency: any[] = [];
+	let sum = 0;
 	_.forEach(array, (item) => {
 		if (item[propertyKey] == propertyValue) {
+			sum++;
 			const tagValue = item[tag];
-			if (
-				frequency.findIndex((item) => item["name"] == tagValue) == -1
-			) {
+			if (frequency.findIndex((item) => item["name"] == tagValue) == -1) {
 				//no existe
 				frequency.push({
 					name: tagValue,
@@ -213,5 +218,53 @@ export function getFreqBoolean1Level(
 			}
 		}
 	});
+	// adding percentage to each total item
+	_.forEach(frequency, (item) => {
+		item["percentage"] = ((item["counter"] * 100) / sum).toFixed(1);
+	});
+	return frequency;
+}
+
+/**
+ * funcion que devuelve la frecuencia con la que se repite un valor del arreglo de referencia en el arreglo objetivo
+ * @param targetArray
+ * @param referenceArray
+ * @param targetKey
+ * @param referenceKey
+ * @param tag
+ */
+export function getArrayReferencesFromArray(
+	targetArray: any[],
+	referenceArray: any[],
+	targetKey: string,
+	referenceKey: string,
+	tag: string
+) {
+	const targetA = _.cloneDeep(targetArray);
+	let frequency = [];
+	_.forEach(referenceArray, (referenceAitem) => {
+		_.forEach(targetA, (TargetAItem) => {
+			if (referenceAitem[referenceKey] == TargetAItem[targetKey]) {
+				if (
+					frequency.findIndex(
+						(item) => item["name"] == referenceAitem[tag]
+					) == -1
+				) {
+					// no existe
+					frequency.push({
+						name: referenceAitem[tag],
+						counter: 1,
+					});
+				} else {
+					// existe
+					const index = frequency.findIndex(
+						(item) => item["name"] == referenceAitem[tag]
+					);
+					frequency[index].counter++;
+				}
+			}
+		});
+	});
+	frequency = sortObjectArray(frequency, "counter", "desc");
 	return frequency;
 }

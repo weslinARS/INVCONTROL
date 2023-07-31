@@ -6,23 +6,40 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import * as Yup from "yup";
 import { useCategories } from "../../hooks/";
-import { IRawCategory } from "../../interfaces/ICategory";
 import { TextField } from "../InputsComponent/";
+import { useStore } from "../../Contexts/Store.context";
+import { useEffect } from "react";
 interface IFormProps {
 	setIsOpenForm: any;
 }
-
+type Category ={
+	categoryName:string
+}
 export function CategoryForm({ setIsOpenForm }: IFormProps) {
+	const {
+		isCategoryToEdit,
+		setIsCategoryToEdit,
+		categoryToEdit,
+		setCategoryToEdit,
+	} = useStore();
+	useEffect(() => {
+		if (isCategoryToEdit) console.log(categoryToEdit.categoryName);
+	}, [isCategoryToEdit]);
 	const { AddCategory } = useCategories();
 	const MySwal = withReactContent(Swal);
+	const initialValues: Category = {
+		categoryName: "",
+	};
 	return (
 		<div className='shadow-slate-500-50 prose mx-auto w-fit bg-slate-200  p-4 shadow-md'>
-			<h3 className=''>Registro de categorias </h3>
+			<h3 className=''>{isCategoryToEdit? "Editar Categoria":"Registrar Categoria" } </h3>
 			<Formik
-				initialValues={{
-					categoryName: "",
-				}}
-				onSubmit={(values: IRawCategory, action) => {
+				initialValues={
+					isCategoryToEdit
+						? { categoryName: categoryToEdit.categoryName }
+						: initialValues
+				}
+				onSubmit={(values: Category, action) => {
 					MySwal.fire({
 						title: "¿Desea registrar esta categoria?",
 						text: "Se registrara la categoria en la base de datos",
@@ -52,28 +69,32 @@ export function CategoryForm({ setIsOpenForm }: IFormProps) {
 						.max(15, "El nombre de la categoria es muy largo")
 						.min(3, "El nombre de la categoria es muy corto"),
 				})}>
-				{({ handleReset, values }) => (
+				{({ values, handleReset }) => (
 					<Form className='flex flex-col content-center items-center justify-center gap-4 md:flex-row'>
 						<TextField
-							fieldName='categoryName'
-							inputIcon={<BsFillPencilFill />}
-							placeHolder='eg. Reposteria'
-							label='Nombre de la categoria'
-							value={values.categoryName}
+						value={values.categoryName}
+						fieldName="categoryName"
+						label="Nombre de la categoria"
+						inputIcon={<BsFillPencilFill />}
+						placeHolder="Ej: Reposteria"
 						/>
 						<div className='flex flex-col gap-2'>
 							<button
 								className='btn-primary  btn-sm btn '
 								type='submit'>
-								Registrar categoria
+								{isCategoryToEdit ? "Editar" : "Registrar"}
 							</button>
 							<button
 								className='btn-error  btn-sm btn '
 								onClick={() => {
+									if(isCategoryToEdit){
+										setIsCategoryToEdit(false);
+										setCategoryToEdit(undefined);
+									}
 									setIsOpenForm(false);
 									handleReset();
 								}}>
-								Cancelar Registro
+								{isCategoryToEdit ? "Cancelar Edicion" : "Cancelar Registro"}
 							</button>
 						</div>
 					</Form>

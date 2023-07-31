@@ -109,7 +109,7 @@ export function ViewSaleButton({ saleInfo }: IProps) {
 			className='dropDownItem hover:cursor-pointer'
 			onClick={() => handleView(saleInfo)}>
 			<BsEyeFill />
-			&nbsp; Editar
+			&nbsp; Ver
 		</span>
 	);
 }

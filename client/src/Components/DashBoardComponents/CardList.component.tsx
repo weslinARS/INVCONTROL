@@ -5,7 +5,7 @@ import Card from "./Card/Card.component";
 
 export function CardList() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-	const { SalesTotalToday, salesAmountCollectedToday } =
+	const { SalesTotalToday, salesAmountCollectedToday , ordersCurrentMonth} =
 		useStatisticContext();
 	useEffect(() => {
 		const handleResize = () => {
@@ -29,10 +29,9 @@ export function CardList() {
 				title='Monto Recaudado '
 				value={salesAmountCollectedToday}></Card>
 			<Card
-				badgeValue={0.8}
 				icon={<BsArrowRight />}
 				title='Ordenes Realizadas'
-				value={20}></Card>
+				value={ordersCurrentMonth.length}></Card>
 		</>
 	);
 }

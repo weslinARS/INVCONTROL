@@ -3,7 +3,7 @@ interface CardProps {
 	title: string;
 	icon: React.ReactNode;
 	value: number;
-	badgeValue: number;
+	badgeValue?: number;
 }
 export default function CardComp(props: CardProps) {
 	return (
@@ -12,14 +12,15 @@ export default function CardComp(props: CardProps) {
 				className='mx-auto max-w-xs bg-tremor-background-muted'
 				decoration='top'
 				decorationColor='indigo'>
-				<div
-				className="flex justify-between gap-2">
+				<div className='flex justify-between gap-2'>
 					<Title>{props.title}</Title>
-					<BadgeDelta
-						size='xs'
-						deltaType='increase'>
-						{props.badgeValue}
-					</BadgeDelta>
+					{props?.badgeValue && (
+						<BadgeDelta
+							size='xs'
+							deltaType='increase'>
+							{props.badgeValue}
+						</BadgeDelta>
+					)}
 				</div>
 				<Metric>{props.value}</Metric>
 			</Card>

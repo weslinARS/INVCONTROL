@@ -12,6 +12,7 @@ import {
 } from "../validators/user.validator.js";
 import { requireAuthentication } from "../middleware/requireAuthentication.middleware.js";
 import { requireAdminRole } from "../middleware/requireAdminRole.middleware.js";
+import {ValidatorErrorHandler} from '../middleware/ValidatorsErrorManager.middleware.js'
 const router = Router();
 
 // ! Login user
@@ -21,7 +22,7 @@ router.use(requireAuthentication);
 // ! get all users
 router.get("/users",requireAdminRole, getAllUsers);
 // ! Register user
-router.post("/signup",requireAdminRole, UserDataValidation(), SignUpUser);
+router.post("/signup",requireAdminRole, UserDataValidation(),ValidatorErrorHandler, SignUpUser);
 router.delete("/user/:id",requireAdminRole, deleteUser);
 router.put("/user/:id",requireAdminRole, updateUser);
 export default router;

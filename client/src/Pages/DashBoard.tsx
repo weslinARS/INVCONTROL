@@ -7,6 +7,7 @@ import { RootState } from "../Store/store";
 import { useEffect } from "react";
 import { LoadingView } from "../Components/LoadingView.component";
 import {Menu} from "../Components/LayoutComponents";
+import { Toaster } from "react-hot-toast";
 export function DashBoard() {
 	const { FindDocuments, LoadingData } = useStore();
 	const user = useSelector((state: RootState) => state.User);
@@ -18,6 +19,7 @@ export function DashBoard() {
 		<div>
 			<Menu sideBarContent={<SideBarItems />}>
 				<Outlet></Outlet>
+				<Toaster />
 			</Menu>
 		</div>
 	);

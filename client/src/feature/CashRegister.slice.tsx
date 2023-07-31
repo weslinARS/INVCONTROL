@@ -30,6 +30,9 @@ export const CashRegisterSlice = createSlice({
     SetCashRegister: (state, action: PayloadAction<CashRegister>) => {
       state.cashRegister = action.payload;
       state.isCashRegisterOpen = true;
+      if(state.cashRegister.endTime != null){
+        state.isCashRegisterClosed = true;
+      }
     },
     OpenCashRegister : (state, action : PayloadAction<CashRegister>) => {
       state.cashRegister = action.payload;

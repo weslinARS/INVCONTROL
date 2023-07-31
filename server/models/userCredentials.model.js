@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
+import { Schema, model } from "mongoose";
 const userSchema = new Schema({
 	userPassword: {
 		type: String,
@@ -35,9 +35,9 @@ userSchema.statics.signUp = async function (userEmail, userPassword) {
 };
 /**
  * funcion para verificar si el usuario existe en la base de datos y si la contraseña es correcta
- * @param {*} userEmail 
- * @param {*} userPassword 
- * @returns 
+ * @param {string} userEmail
+ * @param {string} userPassword
+ * @returns
  */
 userSchema.statics.logIn = async function (userEmail, userPassword) {
 	// verifying if the  userEmail exists in the databse
@@ -48,8 +48,37 @@ userSchema.statics.logIn = async function (userEmail, userPassword) {
 		userPassword,
 		user.userPassword
 	);
-	console.debug(isValidPassword)
 	if (!isValidPassword) throw new Error("Contraseña incorrecta");
-	return user; 
+	return user;
+};
+/**
+ * funcion para actualizar la contraseña de un usuario
+ * @param {string} userId id del usuario a actualizar
+ * @param {string} userEmail correo del usuario a actualizar
+ * @param {*} userPassword
+ * @returns
+ */
+userSchema.statics.UpdateUser = async function (
+	userId,
+	userEmail,
+	userPassword
+) {
+	console.trace("userId", userId);
+	const user = await await this.findById({ _id: userId });
+	if (!user) throw new Error("El correo no existe en la base de datos");
+	// hashing password
+	console.trace("userPassword", userPassword);
+	try {
+		const salt = await bcrypt.genSalt(10); // 10 is the number of rounds
+		const hashPassword = await bcrypt.hash(userPassword, salt); // hash the password
+		const userUpdate = await this.updateOne({_id : userId},{
+			userPassword: hashPassword,
+			userEmail,
+		});
+	} catch (error) {
+		throw new Error("Error al actualizar el usuario");
+	}
+
+	return userEmail;
 };
 export default model("UserCredentials", userSchema);

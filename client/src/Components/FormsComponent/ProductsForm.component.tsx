@@ -50,12 +50,12 @@ export function ProductsForm({ setIsOpenForm }: IFormProps) {
 						!isProductToEdit
 							? {
 									productName: "",
-									productPrice: 0,
-									productStock: 0,
+									productPrice: "",
+									productStock: "",
 									productSupplierId: "",
 									productCategory: "",
 									productDescription: "",
-									productStockPolicy: 0
+									productStockPolicy: "",
 							}
 							: { ...productToEdit }
 					}
@@ -136,7 +136,7 @@ export function ProductsForm({ setIsOpenForm }: IFormProps) {
 									value={values.productPrice}
 								/>
 								<NumberField
-									fieldName="productStockPolicy"
+									fieldName='productStockPolicy'
 									inputIcon={<BsFillTagFill />}
 									label={"Politica de stock"}
 									placeHolder={"Politica de stock"}
@@ -172,7 +172,9 @@ export function ProductsForm({ setIsOpenForm }: IFormProps) {
 									fieldName={"productCategory"}
 									Label={"Categoria del producto"}
 									LabelOption={"categoryName"}
-									List={CategoryList} value={""}								/>
+									List={CategoryList}
+									value={values.productCategory}
+								/>
 								{
 									// * INPUT PROVEEDOR PRODUCT
 								}

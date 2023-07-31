@@ -20,16 +20,14 @@ export const getSupplier = async (request, response) => {
 	}
 };
 export const createSupplier = async (request, response) => {
-	const errors = validationResult(request);
-	if (!errors.isEmpty())
-		return response.status(400).json({ errors: errors.array() });
 	try {
-		const { supplierName, supplierPhoneNumbers, supplierEmail } =
+		const { supplierName, supplierPhoneNumbers, supplierEmail, supplierAddress } =
 			request.body;
 		const supplier = new Supplier({
 			supplierName,
 			supplierPhoneNumbers,
 			supplierEmail,
+			supplierAddress,
 		});
 		const supplierCreated = await supplier.save();
 		return response.status(201).json(supplierCreated);
@@ -52,9 +50,6 @@ export const deleteSupplier = async (request, response) => {
 };
 
 export const updateSupplier = async (request, response) => {
-	const errors = validationResult(request);
-	if (!errors.isEmpty())
-		return response.status(400).json({ errors: errors.array() });
 	try {
 		const updatedSupplier = await Supplier.findByIdAndUpdate(
 			request.params.id,

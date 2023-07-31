@@ -38,12 +38,12 @@ export const OrdersSlice = createSlice({
 		DeleteOrder: (state, action: PayloadAction<string>) => {
 			state.orders = RemoveById(state.orders, action.payload);
 		},
-		UpdateOrders: (state, action: PayloadAction<Order>) => {
+		UpdateOrder: (state, action: PayloadAction<Order>) => {
 			state.orders = UpdateArray(state.orders, action.payload);
 		},
 	},
 });
 
-export const { SetOrders, ResetOrders, AddOrder, DeleteOrder, UpdateOrders} =
+export const { SetOrders, ResetOrders, AddOrder, DeleteOrder, UpdateOrder} =
 	OrdersSlice.actions;
 export default OrdersSlice.reducer;

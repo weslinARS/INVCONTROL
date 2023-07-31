@@ -8,7 +8,6 @@ import {
 	TabPanel,
 	TabPanels,
 	Text,
-	Title,
 } from "@tremor/react";
 import { useMemo, useState } from "react";
 import { Toaster } from "react-hot-toast";
@@ -17,7 +16,6 @@ import { BsFillBagPlusFill, BsFillBookmarkPlusFill } from "react-icons/bs";
 import { HiChevronDoubleDown, HiHashtag, HiTag } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { uid } from "react-uid";
-import { getTotalBooleanValues } from "../../utilities/statFunctions.utilities";
 import { CategoryList } from "../../Components/CategoryComponents/CategoryList.component";
 import { CategoryForm, ProductsForm } from "../../Components/FormsComponent";
 import { columns } from "../../Components/ProductTable/Columns";
@@ -25,6 +23,7 @@ import { ButtonFormTrigger } from "../../Components/ProductsViewComponent/Button
 import { DataTable } from "../../Components/Table/data-table";
 import { useStore } from "../../Contexts/Store.context";
 import { RootState } from "../../Store/store";
+import { getTotalBooleanValues } from "../../utilities/statFunctions.utilities";
 const useProductData = () => {
 	const productList = useSelector(
 		(state: RootState) => state.Products.products
@@ -77,10 +76,10 @@ export function Productos() {
 	return (
 		<div className='p-4'>
 			<main>
-					<h1 className='flex flex-row text-4xl font-bold '>
-						<BiCoffeeTogo />
-						Productos
-					</h1>
+				<h1 className='flex flex-row text-4xl font-bold '>
+					<BiCoffeeTogo />
+					Productos
+				</h1>
 				<Text>
 					{" "}
 					<span className='ml-2 text-lg font-bold text-primary '>
@@ -181,7 +180,7 @@ export function Productos() {
 										<div className=''>
 											{!isProductFormOpen &&
 												!isCategoryFormOpen && (
-													<div className='mt-4 flex flex-col md:flex-row w-full items-center justify-center gap-4'>
+													<div className='mt-4 flex w-full flex-col items-center justify-center gap-4 md:flex-row'>
 														<ButtonFormTrigger
 															buttonIcon={
 																<BsFillBagPlusFill />
@@ -194,7 +193,7 @@ export function Productos() {
 															}
 														/>
 														<ButtonFormTrigger
-															buttonText='Agregar Categoría'
+															buttonText='Ver Categorías'
 															triggerFunction={() =>
 																setisCategoryFormOpen(
 																	!isCategoryFormOpen
